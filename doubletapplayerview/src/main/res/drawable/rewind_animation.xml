@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/selected"
+        android:oneshot="false">
+    <item
+            android:drawable="@drawable/ic_rewind_animation_00"
+            android:duration="@integer/forward_rewind_animation_duration" />
+
+    <item
+            android:drawable="@drawable/ic_rewind_animation_01"
+            android:duration="@integer/forward_rewind_animation_duration" />
+
+    <item
+            android:drawable="@drawable/ic_rewind_animation_02"
+            android:duration="@integer/forward_rewind_animation_duration" />
+
+    <item
+            android:drawable="@drawable/ic_rewind_animation_03"
+            android:duration="@integer/forward_rewind_animation_duration" />
+
+    <item
+            android:drawable="@drawable/ic_rewind_animation_04"
+            android:duration="@integer/forward_rewind_animation_duration" />
+
+    <item
+            android:drawable="@drawable/ic_rewind_animation_05"
+            android:duration="@integer/forward_rewind_animation_duration" />
+
+    <item
+            android:drawable="@drawable/ic_rewind_animation_06"
+            android:duration="@integer/forward_rewind_animation_duration" />
+
+    <item
+            android:drawable="@drawable/ic_rewind_animation_07"
+            android:duration="@integer/forward_rewind_animation_duration" />
+
+    <item
+            android:drawable="@drawable/ic_rewind_animation_08"
+            android:duration="@integer/forward_rewind_animation_duration" />
+
+    <item
+            android:drawable="@drawable/ic_rewind_animation_09"
+            android:duration="50" />
+
+    <item
+            android:drawable="@drawable/ic_rewind_animation_10"
+            android:duration="@integer/forward_rewind_animation_duration" />
+
+    <item
+            android:drawable="@drawable/ic_rewind_animation_11"
+            android:duration="@integer/forward_rewind_animation_duration" />
+
+    <item
+            android:drawable="@drawable/ic_rewind_animation_12"
+            android:duration="@integer/forward_rewind_animation_duration" />
+
+    <item
+            android:drawable="@drawable/ic_rewind_animation_13"
+            android:duration="@integer/forward_rewind_animation_duration" />
+</animation-list>

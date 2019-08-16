@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="dtp_rewind_forward_bg">#17FFFFFF</color>
+    <color name="dtp_rewind_forward_bg_ripple">#C4C4C4</color>
+
+    <color name="rf_animation_0">#00FFFFFF</color>
+    <color name="rf_animation_1">#22FFFFFF</color>
+    <color name="rf_animation_2">#99FFFFFF</color>
+    <color name="rf_animation_3">#FFFFFFFF</color>
+
+    <color name="dtp_overlay_dim">#70000000</color>
+
+</resources>

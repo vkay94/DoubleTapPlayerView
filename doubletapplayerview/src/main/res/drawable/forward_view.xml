@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+            android:bottom="@dimen/ripple_cut_dimension"
+            android:left="0dp"
+            android:right="@dimen/ripple_cut_dimension"
+            android:top="@dimen/ripple_cut_dimension">
+
+        <shape android:shape="oval">
+            <solid android:color="@color/dtp_rewind_forward_bg"/>
+        </shape>
+    </item>
+</layer-list>

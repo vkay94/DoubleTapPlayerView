@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name" translatable="false">DoubleTapPlayer</string>
+    <string name="dtp_rf_seconds">%1$d seconds</string>
+</resources>
