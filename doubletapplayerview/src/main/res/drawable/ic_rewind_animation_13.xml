@@ -8,12 +8,12 @@
             android:scaleX="-1">
 
     <path
-            android:fillColor="@color/rf_animation_0"
+            android:fillColor="@color/dtp_yt_animation_0"
             android:pathData="M0,0 L216.75,153 0,306Z" />
     <path
-            android:fillColor="@color/rf_animation_0"
+            android:fillColor="@color/dtp_yt_animation_0"
             android:pathData="m246.856,0 l216.75,153 -216.75,153z" />
     <path
-            android:fillColor="@color/rf_animation_2"
+            android:fillColor="@color/dtp_yt_animation_2"
             android:pathData="m493.712,0 l216.75,153 -216.75,153z" /></group>
 </vector>

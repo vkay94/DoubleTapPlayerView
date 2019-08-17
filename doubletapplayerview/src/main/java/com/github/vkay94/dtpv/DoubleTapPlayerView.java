@@ -43,11 +43,6 @@ public final class DoubleTapPlayerView extends PlayerView {
      **/
     long DOUBLE_TAP_DELAY = 500;
 
-    /**
-     * Skip interval per tap in milliseconds
-     */
-    int FAST_REWIND_FORWARD_SKIP = 10000;
-
     public DoubleTapPlayerView(Context context) {
         this(context, null);
     }
@@ -72,7 +67,7 @@ public final class DoubleTapPlayerView extends PlayerView {
     /**
      * Sets optional {@link PlayerDoubleTapListener} for custom implementation
      */
-    public DoubleTapPlayerView setDoubleTapLayout(PlayerDoubleTapListener layout) {
+    public DoubleTapPlayerView setDoubleTapListener(PlayerDoubleTapListener layout) {
         if (layout != null) {
             controls = layout;
         }
@@ -127,6 +122,9 @@ public final class DoubleTapPlayerView extends PlayerView {
         @Override
         public boolean onDown(MotionEvent e) {
             // Used to override the other methods
+            if (isDoubleTap) {
+                controls.onDoubleTapProgressDown(e.getX(), e.getY());
+            }
             return true;
         }
 
@@ -137,7 +135,7 @@ public final class DoubleTapPlayerView extends PlayerView {
 
                 // Remove previous runnable and re-add it to reset the time and call controls method
                 keepInDoubleTapMode();
-                controls.onDoubleTapProgress(e.getX(), e.getY());
+                controls.onDoubleTapProgressUp(e.getX(), e.getY());
             }
 
             return true;
@@ -175,7 +173,7 @@ public final class DoubleTapPlayerView extends PlayerView {
                 if (DEBUG) Log.d(TAG, "onDoubleTapEvent, ACTION_UP");
 
                 keepInDoubleTapMode();
-                controls.onDoubleTapProgress(e.getX(), e.getY());
+                controls.onDoubleTapProgressUp(e.getX(), e.getY());
 
                 return true;
             }
@@ -191,7 +189,17 @@ public final class DoubleTapPlayerView extends PlayerView {
          * @param posX x tap position on the root view
          * @param posY y tap position on the root view
          */
-        void onDoubleTapStarted(float posX, float posY);
+        default void onDoubleTapStarted(float posX, float posY) { }
+
+        /**
+         * Called for each ongoing tap (also single tap) ({@link MotionEvent#ACTION_DOWN})
+         * when double tap started and still in double tap mode range defined
+         * by {@link DoubleTapPlayerView#DOUBLE_TAP_DELAY}
+         *
+         * @param posX x tap position on the root view
+         * @param posY y tap position on the root view
+         */
+        default void onDoubleTapProgressDown(float posX, float posY) { }
 
         /**
          * Called for each ongoing tap (also single tap) ({@link MotionEvent#ACTION_UP})
@@ -201,11 +209,11 @@ public final class DoubleTapPlayerView extends PlayerView {
          * @param posX x tap position on the root view
          * @param posY y tap position on the root view
          */
-        void onDoubleTapProgress(float posX, float posY);
+        default void onDoubleTapProgressUp(float posX, float posY) { }
 
         /**
          * Called when the {@link DoubleTapPlayerView#DOUBLE_TAP_DELAY} is over
          */
-        void onDoubleTapFinished();
+        default void onDoubleTapFinished() { }
     }
 }

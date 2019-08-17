@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="ripple_cut_dimension">-200dp</dimen>
+    <dimen name="yt_ripple_cut_dimension">-200dp</dimen>
 </resources>

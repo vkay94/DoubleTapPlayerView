@@ -38,7 +38,7 @@ class YouTubeDoubleTap(context: Context?, attrs: AttributeSet?) : ConstraintLayo
     var currentRewindForward = 0
 
     init {
-        LayoutInflater.from(context).inflate(R.layout.double_tap_overlay, this, true)
+        LayoutInflater.from(context).inflate(R.layout.yt_overlay, this, true)
         hide()
 
         // Initialize UI components
@@ -49,9 +49,9 @@ class YouTubeDoubleTap(context: Context?, attrs: AttributeSet?) : ConstraintLayo
         rewindContainer = findViewById(R.id.rewindFrameLayout)
 
         forwardAnimation =
-            ContextCompat.getDrawable(context!!, R.drawable.forward_animation) as AnimationDrawable
+            ContextCompat.getDrawable(context!!, R.drawable.yt_forward_animation) as AnimationDrawable
         rewindAnimation =
-            ContextCompat.getDrawable(context, R.drawable.rewind_animation) as AnimationDrawable
+            ContextCompat.getDrawable(context, R.drawable.yt_rewind_animation) as AnimationDrawable
 
         tvForward.setCompoundDrawablesWithIntrinsicBounds(null, forwardAnimation, null, null)
         tvRewind.setCompoundDrawablesWithIntrinsicBounds(null, rewindAnimation, null, null)
@@ -95,12 +95,18 @@ class YouTubeDoubleTap(context: Context?, attrs: AttributeSet?) : ConstraintLayo
 
         // Hide controls (hideController() wouldn't work correctly if playWhenReady is false
         // (the canvas would flack))
-        playerView?.useController = false
-        show()
+//        playerView?.useController = false
+//        show()
     }
 
-    override fun onDoubleTapProgress(posX: Float, posY: Float) {
-        if (DEBUG) Log.d(TAG, "onDoubleTapProgress: $posX")
+    override fun onDoubleTapProgressUp(posX: Float, posY: Float) {
+        if (DEBUG) Log.d(TAG, "onDoubleTapProgressUp: $posX")
+
+        // YouTube behavior: show overlay on MOTION_UP:
+        if (this.visibility == View.GONE) {
+            playerView?.useController = false
+            show()
+        }
 
         // Method called when already in double tap mode and tapping area is different
         // (for example: started left and then right/middle)
@@ -140,7 +146,7 @@ class YouTubeDoubleTap(context: Context?, attrs: AttributeSet?) : ConstraintLayo
         }
 
         val newPosition = player?.currentPosition?.plus(value * FAST_FORWARD_REWIND_SKIP)
-        player?.seekTo(newPosition!!)
+        newPosition?.let { player?.seekTo(newPosition) }
     }
 
     override fun onDoubleTapFinished() {
@@ -159,6 +165,10 @@ class YouTubeDoubleTap(context: Context?, attrs: AttributeSet?) : ConstraintLayo
 
         forwardAnimation.stop()
         rewindAnimation.stop()
+    }
+
+    override fun onDoubleTapProgressDown(posX: Float, posY: Float) {
+        if (DEBUG) Log.d(TAG, "onDoubleTapProgressDown")
     }
 
 

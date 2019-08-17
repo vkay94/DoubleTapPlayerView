@@ -61,13 +61,14 @@ Activity:
 
 ```java
 // Link the PlayerView to the overlay to pass increment to the Player (seekTo)
+// Important: set the PlayerInstance to the PlayerView before this call
 youTubeDoubleTap
-    .setPlayer(videoFullScreenPlayer)
+    .setPlayer(doubletapplayerview)
     .setForwardRewindIncrementMs(5000)
 
 // Set YouTube overlay to the PlayerView and set double tapping enabled (false by default)
 doubletapplayerview
     .activateDoubleTap(true)
     .setDoubleTapDelay(500)
-    .setDoubleTapLayout(doubleTapOverlay)
+    .setDoubleTapListener(youTubeDoubleTap)
 ```

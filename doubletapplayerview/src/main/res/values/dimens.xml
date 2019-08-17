@@ -2,5 +2,5 @@
 <resources>
     <!-- used for the rewind / forward view to cut area from the oval shape to show the desired -->
     <!-- portion (like YouTube). Needs to be adjusted for different device dimensions -->
-    <dimen name="ripple_cut_dimension">-100dp</dimen>
+    <dimen name="yt_ripple_cut_dimension">-100dp</dimen>
 </resources>

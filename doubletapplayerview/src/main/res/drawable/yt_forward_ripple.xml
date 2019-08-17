@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ripple xmlns:android="http://schemas.android.com/apk/res/android"
-        android:color="@color/dtp_rewind_forward_bg_ripple">
+        android:color="@color/dtp_yt_background_ripple">
     <item
             android:id="@android:id/mask"
-            android:drawable="@drawable/rewind_view" />
+            android:drawable="@drawable/yt_forward_view" />
 </ripple>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+            android:bottom="@dimen/yt_ripple_cut_dimension"
+            android:left="@dimen/yt_ripple_cut_dimension"
+            android:right="0dp"
+            android:top="@dimen/yt_ripple_cut_dimension">
+
+        <shape android:shape="oval">
+            <solid android:color="@color/dtp_yt_background" />
+        </shape>
+    </item>
+</layer-list>
