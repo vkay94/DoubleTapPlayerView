@@ -6,7 +6,6 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
-import android.view.View;
 
 import androidx.core.view.GestureDetectorCompat;
 
@@ -14,7 +13,7 @@ import com.google.android.exoplayer2.ui.PlayerView;
 
 /**
  * Custom player class for Double-Tapping listening
- * Performs behavior like YouTube (by default)
+ *
  */
 public final class DoubleTapPlayerView extends PlayerView {
 
@@ -25,7 +24,7 @@ public final class DoubleTapPlayerView extends PlayerView {
 
     private GestureDetectorCompat mDetector;
 
-    PlayerDoubleTapListener listener;
+    PlayerDoubleTapListener controls;
 
     // Variable to save current state
     private boolean isDoubleTap = false;
@@ -34,15 +33,13 @@ public final class DoubleTapPlayerView extends PlayerView {
     private Runnable mRunnable = () -> {
         Log.d(TAG, "Runnable called");
         isDoubleTap = false;
-        listener.onDoubleTapFinished();
+        controls.onDoubleTapFinished();
     };
 
-    // Variables for YouTube behavior:
-    private DoubleTapOverlay controls;
-
     /**
-     * Default time window in which the double tap is "active"
-     * Resets if another tap occured within the time window
+     * Default time window in which the double tap is active
+     * Resets if another tap occured within the time window by calling
+     * {@link DoubleTapPlayerView#keepInDoubleTapMode()}
      **/
     long DOUBLE_TAP_DELAY = 500;
 
@@ -50,9 +47,6 @@ public final class DoubleTapPlayerView extends PlayerView {
      * Skip interval per tap in milliseconds
      */
     int FAST_REWIND_FORWARD_SKIP = 10000;
-
-    // Variables for YouTube behavior
-    private int currentRewindForward = 0;
 
     public DoubleTapPlayerView(Context context) {
         this(context, null);
@@ -76,32 +70,12 @@ public final class DoubleTapPlayerView extends PlayerView {
     }
 
     /**
-     * Method to initialize controller and listeners if controller is set
-     * Obligatory for YouTube behavior
-     *
-     * @param controls Passed controller which is within the activity layout (on top)
-     */
-    public DoubleTapPlayerView setOverlay(DoubleTapOverlay controls) {
-        this.controls = controls;
-        initYTController();
-        initYTListener();
-
-        return this;
-    }
-
-    /**
-     * Sets the new skip interval
-     */
-    public DoubleTapPlayerView setSkipDurationMs(int newValue) {
-        this.FAST_REWIND_FORWARD_SKIP = newValue;
-        return this;
-    }
-
-    /**
      * Sets optional {@link PlayerDoubleTapListener} for custom implementation
      */
-    public DoubleTapPlayerView setDoubleTapListener(PlayerDoubleTapListener listener) {
-        this.listener = listener;
+    public DoubleTapPlayerView setDoubleTapLayout(PlayerDoubleTapListener layout) {
+        if (layout != null) {
+            controls = layout;
+        }
         return this;
     }
 
@@ -123,6 +97,15 @@ public final class DoubleTapPlayerView extends PlayerView {
         mHandler.postDelayed(mRunnable, DOUBLE_TAP_DELAY);
     }
 
+    /**
+     * Cancels double tap mode
+     */
+    public void cancelInDoubleTapMode() {
+        mHandler.removeCallbacks(mRunnable);
+        isDoubleTap = false;
+        controls.onDoubleTapFinished();
+    }
+
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
         if (doubleTapActivated) {
@@ -134,99 +117,6 @@ public final class DoubleTapPlayerView extends PlayerView {
         }
 
         return super.onTouchEvent(ev);
-    }
-
-    private void initYTController() {
-        controls.getRewindContainer().setOnClickListener(view -> {
-            keepInDoubleTapMode();
-            currentRewindForward += FAST_REWIND_FORWARD_SKIP / 1000;
-            controls.getTvRewind().setText( getResources().getString(R.string.dtp_rf_seconds, currentRewindForward));
-            getPlayer().seekTo(getPlayer().getCurrentPosition() - 10000);
-        });
-
-        controls.getForwardContainer().setOnClickListener(view -> {
-            keepInDoubleTapMode();
-            currentRewindForward += FAST_REWIND_FORWARD_SKIP / 1000;
-            controls.getTvForward().setText(getResources().getString(R.string.dtp_rf_seconds, currentRewindForward));
-            getPlayer().seekTo(getPlayer().getCurrentPosition() + 10000);
-        });
-    }
-
-    private void initYTListener() {
-        listener = new PlayerDoubleTapListener() {
-
-            @Override
-            public void onDoubleTapStarted(float posX, float posY) {
-                if (DEBUG) Log.d(TAG, "onDoubleTapStarted: " + posX);
-
-                // Hide controls (hideController() wouldn't work correctly if playWhenReady is false
-                // (the canvas would flack))
-                setUseController(false);
-                controls.show();
-            }
-
-            @Override
-            public void onDoubleTapProgress(float posX, float posY) {
-                if (DEBUG) Log.d(TAG, "onDoubleTapProgress: " + posX);
-
-                // Method called when already in double tap mode and tapping area is different
-                // (for example: started left and then right/middle)
-
-                currentRewindForward = FAST_REWIND_FORWARD_SKIP / 1000;
-
-                int value;
-
-                if (posX < getWidth() * 0.35) {
-                    if (controls.getForwardContainer().getVisibility() == View.VISIBLE)
-                        controls.getForwardContainer().setVisibility(View.INVISIBLE);
-
-                    controls.getTvRewind().setText(getResources().getString(R.string.dtp_rf_seconds, currentRewindForward));
-                    controls.getRewindContainer().setVisibility(View.VISIBLE);
-                    controls.getRewindAnimation().start();
-
-                    value = -1;
-
-                } else if (posX > getWidth() * 0.65) {
-
-                    if (controls.getRewindContainer().getVisibility() == View.VISIBLE)
-                        controls.getRewindContainer().setVisibility(View.INVISIBLE);
-
-                    controls.getTvForward().setText(getResources().getString(R.string.dtp_rf_seconds, currentRewindForward));
-                    controls.getForwardContainer().setVisibility(View.VISIBLE);
-                    controls.getForwardAnimation().start();
-
-                    value = 1;
-
-                } else {
-                    mHandler.removeCallbacks(mRunnable);
-                    isDoubleTap = false;
-                    listener.onDoubleTapFinished();
-                    return;
-                }
-
-                long newPosition = getPlayer().getCurrentPosition() + value * FAST_REWIND_FORWARD_SKIP;
-                getPlayer().seekTo(newPosition);
-            }
-
-            @Override
-            public void onDoubleTapFinished() {
-                if (DEBUG) Log.d(TAG, "onDoubleTapFinished");
-
-                // Hide overlay and re-add the controller to the player and show controls
-                // if the player was paused previously
-                setUseController(true);
-                controls.hide();
-
-                if (!getPlayer().getPlayWhenReady()) showController();
-
-                // Set overlay to its original state
-                controls.getRewindContainer().setVisibility(View.INVISIBLE);
-                controls.getForwardContainer().setVisibility(View.INVISIBLE);
-
-                controls.getForwardAnimation().stop();
-                controls.getRewindAnimation().stop();
-            }
-        };
     }
 
     /**
@@ -245,9 +135,9 @@ public final class DoubleTapPlayerView extends PlayerView {
             if (isDoubleTap) {
                 if (DEBUG) Log.d(TAG, "onSingleTapUp: isDoubleTap = true");
 
-                // Remove previous runnable and re-add it to reset the time and call listener method
+                // Remove previous runnable and re-add it to reset the time and call controls method
                 keepInDoubleTapMode();
-                listener.onDoubleTapProgress(e.getX(), e.getY());
+                controls.onDoubleTapProgress(e.getX(), e.getY());
             }
 
             return true;
@@ -273,7 +163,7 @@ public final class DoubleTapPlayerView extends PlayerView {
             if (!isDoubleTap) {
                 isDoubleTap = true;
                 keepInDoubleTapMode();
-                listener.onDoubleTapStarted(e.getX(), e.getY());
+                controls.onDoubleTapStarted(e.getX(), e.getY());
             }
             return true;
         }
@@ -285,7 +175,7 @@ public final class DoubleTapPlayerView extends PlayerView {
                 if (DEBUG) Log.d(TAG, "onDoubleTapEvent, ACTION_UP");
 
                 keepInDoubleTapMode();
-                listener.onDoubleTapProgress(e.getX(), e.getY());
+                controls.onDoubleTapProgress(e.getX(), e.getY());
 
                 return true;
             }
@@ -304,7 +194,9 @@ public final class DoubleTapPlayerView extends PlayerView {
         void onDoubleTapStarted(float posX, float posY);
 
         /**
-         * Called for each ongoing tap when double tap started
+         * Called for each ongoing tap (also single tap) ({@link MotionEvent#ACTION_UP})
+         * when double tap started and still in double tap mode range defined
+         * by {@link DoubleTapPlayerView#DOUBLE_TAP_DELAY}
          *
          * @param posX x tap position on the root view
          * @param posY y tap position on the root view
@@ -312,7 +204,7 @@ public final class DoubleTapPlayerView extends PlayerView {
         void onDoubleTapProgress(float posX, float posY);
 
         /**
-         * Called when the delay is over (double tap series is finished)
+         * Called when the {@link DoubleTapPlayerView#DOUBLE_TAP_DELAY} is over
          */
         void onDoubleTapFinished();
     }
