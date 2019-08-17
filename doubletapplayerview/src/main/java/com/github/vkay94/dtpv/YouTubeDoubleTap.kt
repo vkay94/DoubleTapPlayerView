@@ -83,7 +83,7 @@ class YouTubeDoubleTap(context: Context?, attrs: AttributeSet?) : ConstraintLayo
         return this
     }
 
-    fun setForwardIncrementIncrementMs(milliseconds: Int): YouTubeDoubleTap {
+    fun setForwardRewindIncrementMs(milliseconds: Int): YouTubeDoubleTap {
         this.FAST_FORWARD_REWIND_SKIP = milliseconds
         return this
     }
