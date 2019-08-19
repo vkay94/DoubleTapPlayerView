@@ -13,7 +13,7 @@ import androidx.core.content.ContextCompat
 import com.google.android.exoplayer2.Player
 
 class YouTubeDoubleTap(context: Context?, attrs: AttributeSet?) : ConstraintLayout(context, attrs),
-    DoubleTapPlayerView.PlayerDoubleTapListener {
+    PlayerDoubleTapListener {
 
     val TAG = ".YouTubeDoubleTap"
     var DEBUG = BuildConfig.BUILD_TYPE != "release"
@@ -32,17 +32,16 @@ class YouTubeDoubleTap(context: Context?, attrs: AttributeSet?) : ConstraintLayo
     private var playerView: DoubleTapPlayerView? = null
     private var player: Player? = null
 
-    var FAST_FORWARD_REWIND_SKIP = 10000
+    private var FAST_FORWARD_REWIND_SKIP = 10000
 
     // YouTube specific
-    var currentRewindForward = 0
+    private var currentRewindForward = 0
 
     init {
         LayoutInflater.from(context).inflate(R.layout.yt_overlay, this, true)
         hide()
 
         // Initialize UI components
-
         tvForward = findViewById(R.id.tvForward)
         tvRewind = findViewById(R.id.tvRewind)
         forwardContainer = findViewById(R.id.forwardFrameLayout)
@@ -57,52 +56,55 @@ class YouTubeDoubleTap(context: Context?, attrs: AttributeSet?) : ConstraintLayo
         tvRewind.setCompoundDrawablesWithIntrinsicBounds(null, rewindAnimation, null, null)
 
         // Click listeners
-        rewindContainer.setOnClickListener { view ->
+        rewindContainer.setOnClickListener { _ ->
             playerView?.keepInDoubleTapMode()
             currentRewindForward += FAST_FORWARD_REWIND_SKIP / 1000
             tvRewind.text =
-                resources.getString(R.string.dtp_rf_seconds, currentRewindForward)
+                resources.getQuantityString(R.plurals.dtp_rf_seconds, currentRewindForward, currentRewindForward)
 
             player?.seekTo(player?.currentPosition!!.minus(FAST_FORWARD_REWIND_SKIP))
         }
 
-        forwardContainer.setOnClickListener { view ->
+        forwardContainer.setOnClickListener { _ ->
             playerView?.keepInDoubleTapMode()
             currentRewindForward += FAST_FORWARD_REWIND_SKIP / 1000
             tvForward.text =
-                resources.getString(R.string.dtp_rf_seconds, currentRewindForward)
+                resources.getQuantityString(R.plurals.dtp_rf_seconds, currentRewindForward, currentRewindForward)
 
             player?.seekTo(player?.currentPosition!!.plus(FAST_FORWARD_REWIND_SKIP))
         }
     }
 
-    // Important!
+    /**
+     * Obligatory call!
+     * Links the DoubleTapPlayerView to this view for performing seekTo-calls
+     * and hiding the controller
+     *
+     * @param playerView PlayerView which triggers the event
+     */
     fun setPlayer(playerView: DoubleTapPlayerView): YouTubeDoubleTap {
         this.playerView = playerView
         this.player = playerView.player
         return this
     }
 
+    /**
+     * Sets the forward / rewind steps, default: 10 seconds
+     */
     fun setForwardRewindIncrementMs(milliseconds: Int): YouTubeDoubleTap {
         this.FAST_FORWARD_REWIND_SKIP = milliseconds
         return this
     }
 
     // PlayerDoubleTapListener methods
-
     override fun onDoubleTapStarted(posX: Float, posY: Float) {
         if (DEBUG) Log.d(TAG, "onDoubleTapStarted: $posX")
-
-        // Hide controls (hideController() wouldn't work correctly if playWhenReady is false
-        // (the canvas would flack))
-//        playerView?.useController = false
-//        show()
     }
 
     override fun onDoubleTapProgressUp(posX: Float, posY: Float) {
         if (DEBUG) Log.d(TAG, "onDoubleTapProgressUp: $posX")
 
-        // YouTube behavior: show overlay on MOTION_UP:
+        // YouTube behavior: show overlay on MOTION_UP and hide controls then
         if (this.visibility == View.GONE) {
             playerView?.useController = false
             show()
@@ -119,7 +121,7 @@ class YouTubeDoubleTap(context: Context?, attrs: AttributeSet?) : ConstraintLayo
                     forwardContainer.visibility = View.INVISIBLE
 
                 tvRewind.text =
-                    resources.getString(R.string.dtp_rf_seconds, currentRewindForward)
+                    resources.getQuantityString(R.plurals.dtp_rf_seconds, currentRewindForward, currentRewindForward)
 
                 rewindContainer.visibility = View.VISIBLE
                 rewindAnimation.start()
@@ -132,7 +134,7 @@ class YouTubeDoubleTap(context: Context?, attrs: AttributeSet?) : ConstraintLayo
                     rewindContainer.visibility = View.INVISIBLE
 
                 tvForward.text =
-                    resources.getString(R.string.dtp_rf_seconds, currentRewindForward)
+                    resources.getQuantityString(R.plurals.dtp_rf_seconds, currentRewindForward, currentRewindForward)
 
                 forwardContainer.visibility = View.VISIBLE
                 forwardAnimation.start()
@@ -146,7 +148,7 @@ class YouTubeDoubleTap(context: Context?, attrs: AttributeSet?) : ConstraintLayo
         }
 
         val newPosition = player?.currentPosition?.plus(value * FAST_FORWARD_REWIND_SKIP)
-        newPosition?.let { player?.seekTo(newPosition) }
+        newPosition?.let { player?.seekTo(it) }
     }
 
     override fun onDoubleTapFinished() {
@@ -165,10 +167,6 @@ class YouTubeDoubleTap(context: Context?, attrs: AttributeSet?) : ConstraintLayo
 
         forwardAnimation.stop()
         rewindAnimation.stop()
-    }
-
-    override fun onDoubleTapProgressDown(posX: Float, posY: Float) {
-        if (DEBUG) Log.d(TAG, "onDoubleTapProgressDown")
     }
 
 

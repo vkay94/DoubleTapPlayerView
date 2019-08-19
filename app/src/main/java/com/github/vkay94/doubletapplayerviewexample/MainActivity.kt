@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
-import com.github.vkay94.dtpv.DoubleTapPlayerView
+import com.github.vkay94.dtpv.PlayerDoubleTapListener
 import com.google.android.exoplayer2.*
 import com.google.android.exoplayer2.source.ExtractorMediaSource
 import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection
@@ -19,8 +19,9 @@ import com.google.android.exoplayer2.video.VideoListener
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(),
-    Player.EventListener, VideoListener, DoubleTapPlayerView.PlayerDoubleTapListener {
+    Player.EventListener, VideoListener, PlayerDoubleTapListener {
 
+    private val TAG = ".MainActivity"
     private var player: SimpleExoPlayer? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,7 +43,7 @@ class MainActivity : AppCompatActivity(),
         playerView.activateDoubleTap(true)
             .setDoubleTapListener(doubleTapOverlay)
 //            .setDoubleTapListener(this)
-            .setDoubleTapDelay(400)
+            .setDoubleTapDelay(500)
 
         // Start video
         // Found at: https://sample-videos.com/
@@ -140,18 +141,18 @@ class MainActivity : AppCompatActivity(),
     // For debugging purposes
 
     override fun onDoubleTapStarted(posX: Float, posY: Float) {
-        Log.d("MAIN", "onDoubleTapStarted")
+        Log.d(TAG, "onDoubleTapStarted")
     }
 
     override fun onDoubleTapProgressDown(posX: Float, posY: Float) {
-        Log.d("MAIN", "onDoubleTapProgressDown")
+        Log.d(TAG, "onDoubleTapProgressDown")
     }
 
     override fun onDoubleTapProgressUp(posX: Float, posY: Float) {
-        Log.d("MAIN", "onDoubleTapProgressUp")
+        Log.d(TAG, "onDoubleTapProgressUp")
     }
 
     override fun onDoubleTapFinished() {
-        Log.d("MAIN", "onDoubleTapFinished")
+        Log.d(TAG, "onDoubleTapFinished")
     }
 }

@@ -180,40 +180,4 @@ public final class DoubleTapPlayerView extends PlayerView {
             return super.onDoubleTapEvent(e);
         }
     }
-
-    public interface PlayerDoubleTapListener {
-
-        /**
-         * Called when double tapping starts
-         *
-         * @param posX x tap position on the root view
-         * @param posY y tap position on the root view
-         */
-        default void onDoubleTapStarted(float posX, float posY) { }
-
-        /**
-         * Called for each ongoing tap (also single tap) ({@link MotionEvent#ACTION_DOWN})
-         * when double tap started and still in double tap mode range defined
-         * by {@link DoubleTapPlayerView#DOUBLE_TAP_DELAY}
-         *
-         * @param posX x tap position on the root view
-         * @param posY y tap position on the root view
-         */
-        default void onDoubleTapProgressDown(float posX, float posY) { }
-
-        /**
-         * Called for each ongoing tap (also single tap) ({@link MotionEvent#ACTION_UP})
-         * when double tap started and still in double tap mode range defined
-         * by {@link DoubleTapPlayerView#DOUBLE_TAP_DELAY}
-         *
-         * @param posX x tap position on the root view
-         * @param posY y tap position on the root view
-         */
-        default void onDoubleTapProgressUp(float posX, float posY) { }
-
-        /**
-         * Called when the {@link DoubleTapPlayerView#DOUBLE_TAP_DELAY} is over
-         */
-        default void onDoubleTapFinished() { }
-    }
 }

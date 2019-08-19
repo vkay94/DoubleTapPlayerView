@@ -3,14 +3,10 @@ DoubleTapPlayerView
 
 A simple library to include double tap behavior to ExoPlayer's PlayerView. Created to handle fast forward/rewind behavior.
 
-<center>
-<img src="github/youtube.png" alt="drawing" width="400"/>
-</center>
-
-
 ### Pre-defined Layouts
  
-* **YouTube:** Shows bubble overlay on double tap with forward/rewind animation and touch ripples.
+* **YouTube:** Shows an overlay on double tap with forward/rewind animation.
+<img src="github/youtube_preview.png" alt="drawing" width="400"/>
 
 Download
 --------
@@ -25,12 +21,13 @@ allprojects {
 }
 
 dependencies {
-  implementation 'com.github.vkay94:DoubleTapPlayerView:0.2.0'
+  implementation 'com.github.vkay94:DoubleTapPlayerView:0.4.0'
 }
 ```
 
-How do I use (e.g. YouTube rewind/forward)
+How to use
 -------------------
+
 Layout:
 
 ```java
@@ -57,18 +54,19 @@ Layout:
 </FrameLayout>
 ```
 
-Activity: 
+Activity (Kotlin): 
 
 ```java
 // Link the PlayerView to the overlay to pass increment to the Player (seekTo)
-// Important: set the PlayerInstance to the PlayerView before this call
+// Important: set the (Simple)ExoPlayer to the PlayerView before this call
 youTubeDoubleTap
     .setPlayer(doubletapplayerview)
     .setForwardRewindIncrementMs(5000)
 
-// Set YouTube overlay to the PlayerView and set double tapping enabled (false by default)
+// Set YouTube overlay to the PlayerView and double tapping enabled (false by default)
 doubletapplayerview
     .activateDoubleTap(true)
     .setDoubleTapDelay(500)
     .setDoubleTapListener(youTubeDoubleTap)
+  //.setDoubleTapListener(this) => handle event directly within´the activity
 ```
