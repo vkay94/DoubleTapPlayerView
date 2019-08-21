@@ -3,7 +3,7 @@
     <item
             android:bottom="@dimen/yt_ripple_cut_dimension"
             android:left="@dimen/yt_ripple_cut_dimension"
-            android:right="0dp"
+            android:right="2dp"
             android:top="@dimen/yt_ripple_cut_dimension">
 
         <shape android:shape="oval">
