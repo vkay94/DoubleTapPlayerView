@@ -62,7 +62,7 @@ class YouTubeDoubleTap(context: Context?, attrs: AttributeSet?) : ConstraintLayo
             tvRewind.text =
                 resources.getQuantityString(R.plurals.dtp_rf_seconds, currentRewindForward, currentRewindForward)
 
-            player?.seekTo(player?.currentPosition!!.minus(FAST_FORWARD_REWIND_SKIP))
+            seekToPosition(player?.currentPosition!!.minus(FAST_FORWARD_REWIND_SKIP))
         }
 
         forwardContainer.setOnClickListener { _ ->
@@ -71,7 +71,7 @@ class YouTubeDoubleTap(context: Context?, attrs: AttributeSet?) : ConstraintLayo
             tvForward.text =
                 resources.getQuantityString(R.plurals.dtp_rf_seconds, currentRewindForward, currentRewindForward)
 
-            player?.seekTo(player?.currentPosition!!.plus(FAST_FORWARD_REWIND_SKIP))
+            seekToPosition(player?.currentPosition!!.plus(FAST_FORWARD_REWIND_SKIP))
         }
     }
 
@@ -148,7 +148,7 @@ class YouTubeDoubleTap(context: Context?, attrs: AttributeSet?) : ConstraintLayo
         }
 
         val newPosition = player?.currentPosition?.plus(value * FAST_FORWARD_REWIND_SKIP)
-        newPosition?.let { player?.seekTo(it) }
+        newPosition?.let { seekToPosition(it) }
     }
 
     override fun onDoubleTapFinished() {
@@ -169,6 +169,33 @@ class YouTubeDoubleTap(context: Context?, attrs: AttributeSet?) : ConstraintLayo
         rewindAnimation.stop()
     }
 
+    /**
+     * Seeks the video to desired position. Position can not be less 0 or greater than video length.
+     * Cancels double tap mode otherwise
+     *
+     * @param newPosition desired position
+     */
+    private fun seekToPosition(newPosition: Long) {
+
+        // Start of the video reached
+        if (newPosition <= 0) {
+            player?.seekTo(0)
+            onDoubleTapFinished()
+            return
+        }
+
+        // End of the video reached
+        player?.duration?.let { total ->
+            if (newPosition >= total) {
+                player?.seekTo(total)
+                onDoubleTapFinished()
+                return
+            }
+        }
+
+        // Otherwise
+        player?.seekTo(newPosition)
+    }
 
     fun hide() {
         this.visibility = View.GONE
