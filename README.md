@@ -21,7 +21,7 @@ allprojects {
 }
 
 dependencies {
-  implementation 'com.github.vkay94:DoubleTapPlayerView:0.4.1'
+  implementation 'com.github.vkay94:DoubleTapPlayerView:0.5.0'
 }
 ```
 
