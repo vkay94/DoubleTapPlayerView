@@ -15,8 +15,10 @@ import com.google.android.exoplayer2.Player
 class YouTubeDoubleTap(context: Context?, attrs: AttributeSet?) : ConstraintLayout(context, attrs),
     PlayerDoubleTapListener {
 
-    val TAG = ".YouTubeDoubleTap"
-    var DEBUG = BuildConfig.BUILD_TYPE != "release"
+    companion object {
+        const val TAG = ".YouTubeDoubleTap"
+        const val DEBUG = BuildConfig.BUILD_TYPE != "release"
+    }
 
     // Layout-Views
     var tvForward: TextView
@@ -56,8 +58,7 @@ class YouTubeDoubleTap(context: Context?, attrs: AttributeSet?) : ConstraintLayo
         tvRewind.setCompoundDrawablesWithIntrinsicBounds(null, rewindAnimation, null, null)
 
         // Click listeners
-        rewindContainer.setOnClickListener { _ ->
-            playerView?.keepInDoubleTapMode()
+        rewindContainer.setOnClickListener {
             currentRewindForward += FAST_FORWARD_REWIND_SKIP / 1000
             tvRewind.text =
                 resources.getQuantityString(R.plurals.dtp_rf_seconds, currentRewindForward, currentRewindForward)
@@ -65,8 +66,7 @@ class YouTubeDoubleTap(context: Context?, attrs: AttributeSet?) : ConstraintLayo
             seekToPosition(player?.currentPosition!!.minus(FAST_FORWARD_REWIND_SKIP))
         }
 
-        forwardContainer.setOnClickListener { _ ->
-            playerView?.keepInDoubleTapMode()
+        forwardContainer.setOnClickListener {
             currentRewindForward += FAST_FORWARD_REWIND_SKIP / 1000
             tvForward.text =
                 resources.getQuantityString(R.plurals.dtp_rf_seconds, currentRewindForward, currentRewindForward)
@@ -110,13 +110,10 @@ class YouTubeDoubleTap(context: Context?, attrs: AttributeSet?) : ConstraintLayo
             show()
         }
 
-        // Method called when already in double tap mode and tapping area is different
-        // (for example: started left and then right/middle)
-
         currentRewindForward = FAST_FORWARD_REWIND_SKIP / 1000
 
         val value = when {
-            posX < width * 0.35 -> {
+            posX < playerView?.width!! * 0.35 -> {
                 if (forwardContainer.visibility == View.VISIBLE)
                     forwardContainer.visibility = View.INVISIBLE
 
@@ -128,7 +125,7 @@ class YouTubeDoubleTap(context: Context?, attrs: AttributeSet?) : ConstraintLayo
 
                 -1
             }
-            posX > width * 0.65 -> {
+            posX > playerView?.width!! * 0.65 -> {
 
                 if (rewindContainer.visibility == View.VISIBLE)
                     rewindContainer.visibility = View.INVISIBLE
@@ -194,6 +191,7 @@ class YouTubeDoubleTap(context: Context?, attrs: AttributeSet?) : ConstraintLayo
         }
 
         // Otherwise
+        playerView?.keepInDoubleTapMode()
         player?.seekTo(newPosition)
     }
 
