@@ -33,6 +33,7 @@ class YouTubeDoubleTap(context: Context?, attrs: AttributeSet?) : ConstraintLayo
     // Player behaviors
     private var playerView: DoubleTapPlayerView? = null
     private var player: Player? = null
+    private var seekListener: SeekListener
 
     private var FAST_FORWARD_REWIND_SKIP = 10000
 
@@ -73,6 +74,25 @@ class YouTubeDoubleTap(context: Context?, attrs: AttributeSet?) : ConstraintLayo
 
             seekToPosition(player?.currentPosition!!.plus(FAST_FORWARD_REWIND_SKIP))
         }
+
+        // Listener for default behavior (stop double tap mode) when video end / start reached
+        seekListener = object : SeekListener {
+            override fun onVideoStartReached() {
+                super.onVideoStartReached()
+                player?.seekTo(0)
+
+                // Disable ongoing clicks on rewind container
+                rewindContainer.isClickable = false
+            }
+
+            override fun onVideoEndReached(totalDuration: Long) {
+                super.onVideoEndReached(totalDuration)
+                player?.seekTo(totalDuration)
+
+                // Disable ongoing clicks on forward container
+                forwardContainer.isClickable = false
+            }
+        }
     }
 
     /**
@@ -85,6 +105,15 @@ class YouTubeDoubleTap(context: Context?, attrs: AttributeSet?) : ConstraintLayo
     fun setPlayer(playerView: DoubleTapPlayerView): YouTubeDoubleTap {
         this.playerView = playerView
         this.player = playerView.player
+        return this
+    }
+
+    /**
+     * Optional: Set a listener to observe whether double tap reached
+     * the start / end of the video
+     */
+    fun setSeekListener(seekListener: SeekListener): YouTubeDoubleTap {
+        this.seekListener = seekListener
         return this
     }
 
@@ -103,6 +132,27 @@ class YouTubeDoubleTap(context: Context?, attrs: AttributeSet?) : ConstraintLayo
 
     override fun onDoubleTapProgressUp(posX: Float, posY: Float) {
         if (DEBUG) Log.d(TAG, "onDoubleTapProgressUp: $posX")
+
+        // Method called when entering double tapping or already in double tap mode
+        // and tapping area is different
+        // (for example: started left and then right/middle)
+
+        if (player?.currentPosition == null || playerView?.width == null) return
+
+        // Check first whether forwarding/rewinding is "valid"
+        player?.currentPosition?.let {current ->
+            // Start of the video and rewind
+            if (posX < playerView?.width!! * 0.35 && current <= 500)
+                return
+
+            // End of the video and forward
+            if (posX > playerView?.width!! * 0.65 && current == player?.duration)
+                return
+        }
+
+        // Re-enable clicks on the containers
+        forwardContainer.isClickable = true
+        rewindContainer.isClickable = true
 
         // YouTube behavior: show overlay on MOTION_UP and hide controls then
         if (this.visibility == View.GONE) {
@@ -167,8 +217,9 @@ class YouTubeDoubleTap(context: Context?, attrs: AttributeSet?) : ConstraintLayo
     }
 
     /**
-     * Seeks the video to desired position. Position can not be less 0 or greater than video length.
-     * Cancels double tap mode otherwise
+     * Seeks the video to desired position.
+     * Calls interface functions when start reached ([SeekListener.onVideoStartReached])
+     * or when end reached ([SeekListener.onVideoEndReached])
      *
      * @param newPosition desired position
      */
@@ -176,16 +227,14 @@ class YouTubeDoubleTap(context: Context?, attrs: AttributeSet?) : ConstraintLayo
 
         // Start of the video reached
         if (newPosition <= 0) {
-            player?.seekTo(0)
-            onDoubleTapFinished()
+            seekListener.onVideoStartReached()
             return
         }
 
         // End of the video reached
         player?.duration?.let { total ->
             if (newPosition >= total) {
-                player?.seekTo(total)
-                onDoubleTapFinished()
+                seekListener.onVideoEndReached(total)
                 return
             }
         }
@@ -201,5 +250,21 @@ class YouTubeDoubleTap(context: Context?, attrs: AttributeSet?) : ConstraintLayo
 
     fun show() {
         this.visibility = View.VISIBLE
+    }
+
+    interface SeekListener {
+        /**
+         * Called when video start reached during rewinding
+         */
+        fun onVideoStartReached() {
+            if (DEBUG) Log.d(TAG, "SeekListener: onVideoStartReached")
+        }
+
+        /**
+         * Called when video end reached during forwarding
+         */
+        fun onVideoEndReached(totalDuration: Long) {
+            if (DEBUG) Log.d(TAG, "SeekListener: onVideoEndReached: totalDuration = $totalDuration")
+        }
     }
 }
