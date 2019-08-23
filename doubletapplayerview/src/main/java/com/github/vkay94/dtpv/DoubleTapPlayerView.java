@@ -65,7 +65,7 @@ public final class DoubleTapPlayerView extends PlayerView {
     }
 
     /**
-     * Sets optional {@link PlayerDoubleTapListener} for custom implementation
+     * Sets {@link PlayerDoubleTapListener} for custom implementation
      */
     public DoubleTapPlayerView setDoubleTapListener(PlayerDoubleTapListener layout) {
         if (layout != null) {
@@ -84,8 +84,10 @@ public final class DoubleTapPlayerView extends PlayerView {
     }
 
     /**
-     * Resets the timeout to keep in double tap mode. Can be called from outside if
-     * the double tap is customized / overridden
+     * Resets the timeout to keep in double tap mode.
+     *
+     * Called once in {@link PlayerDoubleTapListener#onDoubleTapStarted} Needs to be called
+     * from outside if the double tap is customized / overridden to detect ongoing taps
      */
     public void keepInDoubleTapMode() {
         mHandler.removeCallbacks(mRunnable);
@@ -93,7 +95,7 @@ public final class DoubleTapPlayerView extends PlayerView {
     }
 
     /**
-     * Cancels double tap mode
+     * Cancels double tap mode instantly by calling {@link PlayerDoubleTapListener#onDoubleTapFinished()}
      */
     public void cancelInDoubleTapMode() {
         mHandler.removeCallbacks(mRunnable);
@@ -132,9 +134,6 @@ public final class DoubleTapPlayerView extends PlayerView {
         public boolean onSingleTapUp(MotionEvent e) {
             if (isDoubleTap) {
                 if (DEBUG) Log.d(TAG, "onSingleTapUp: isDoubleTap = true");
-
-                // Remove previous runnable and re-add it to reset the time and call controls method
-                keepInDoubleTapMode();
                 controls.onDoubleTapProgressUp(e.getX(), e.getY());
             }
 
@@ -171,8 +170,6 @@ public final class DoubleTapPlayerView extends PlayerView {
             // Second tap (ACTION_UP) of both taps
             if (e.getActionMasked() == MotionEvent.ACTION_UP && isDoubleTap) {
                 if (DEBUG) Log.d(TAG, "onDoubleTapEvent, ACTION_UP");
-
-                keepInDoubleTapMode();
                 controls.onDoubleTapProgressUp(e.getX(), e.getY());
 
                 return true;
