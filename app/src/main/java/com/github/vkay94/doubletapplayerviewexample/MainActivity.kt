@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity(), PlayerDoubleTapListener {
             .setForwardRewindIncrementMs(10000)
             .setSeekListener(object : SeekListener {
                 override fun onVideoStartReached() {
-                    player?.stop()
+                    pausePlayer()
                     Toast.makeText(this@MainActivity,
                         "Video start reached", Toast.LENGTH_SHORT).show()
                 }
@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity(), PlayerDoubleTapListener {
         // Start video
         // Found at: https://sample-videos.com/
 
-        val videoUrl = "https://file-examples.com/wp-content/uploads/2017/04/file_example_MP4_1920_18MG.mp4"
+        val videoUrl = "https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_30mb.mp4"
         buildMediaSource(Uri.parse(videoUrl))
     }
 
