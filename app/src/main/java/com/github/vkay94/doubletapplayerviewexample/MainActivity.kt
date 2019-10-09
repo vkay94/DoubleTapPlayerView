@@ -18,6 +18,7 @@ import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.exo_playback_control_view.*
 
 class MainActivity : AppCompatActivity(), PlayerDoubleTapListener {
 
@@ -56,6 +57,14 @@ class MainActivity : AppCompatActivity(), PlayerDoubleTapListener {
             .setDoubleTapListener(doubleTapOverlay)
 //            .setDoubleTapListener(this)
             .setDoubleTapDelay(500)
+
+        btn_ffwd.setOnClickListener {
+            doubleTapOverlay.forward()
+        }
+
+        btn_rew.setOnClickListener {
+            doubleTapOverlay.rewind()
+        }
 
         // Start video
         // Found at: https://sample-videos.com/

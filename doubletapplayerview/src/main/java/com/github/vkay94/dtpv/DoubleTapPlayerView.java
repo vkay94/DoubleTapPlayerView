@@ -90,6 +90,7 @@ public final class DoubleTapPlayerView extends PlayerView {
      * from outside if the double tap is customized / overridden to detect ongoing taps
      */
     public void keepInDoubleTapMode() {
+        isDoubleTap = true;
         mHandler.removeCallbacks(mRunnable);
         mHandler.postDelayed(mRunnable, DOUBLE_TAP_DELAY);
     }
