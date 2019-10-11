@@ -119,6 +119,9 @@ public final class DoubleTapPlayerView extends PlayerView {
 
     /**
      * Gesture Listener for double tapping
+     *
+     * For more information which methods are called in certain situations look for
+     * {@link GestureDetectorCompat#onTouchEvent}, especially for ACTION_DOWN and ACTION_UP
      */
     private class DoubleTapGestureListener extends GestureDetector.SimpleOnGestureListener {
 
