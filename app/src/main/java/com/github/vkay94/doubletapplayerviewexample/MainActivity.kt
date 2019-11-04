@@ -37,7 +37,11 @@ class MainActivity : AppCompatActivity(), PlayerDoubleTapListener {
         initializePlayer()
 
         // Add DoubleTap behavior
-        doubleTapOverlay
+        initializeDoubleTapPlayerView()
+    }
+
+    private fun initializeDoubleTapPlayerView() {
+        youtubeDoubleTap
             .setPlayer(playerView)
             .setForwardRewindIncrementMs(10000)
             .setSeekListener(object : SeekListener {
@@ -54,22 +58,22 @@ class MainActivity : AppCompatActivity(), PlayerDoubleTapListener {
             })
 
         playerView.activateDoubleTap(true)
-            .setDoubleTapListener(doubleTapOverlay)
+            .setDoubleTapListener(youtubeDoubleTap)
 //            .setDoubleTapListener(this)
             .setDoubleTapDelay(500)
 
         btn_ffwd.setOnClickListener {
-            doubleTapOverlay.forward()
+            youtubeDoubleTap.forward()
         }
 
         btn_rew.setOnClickListener {
-            doubleTapOverlay.rewind()
+            youtubeDoubleTap.rewind()
         }
 
         // Start video
-        // Found at: https://sample-videos.com/
+        // Found at: https://gist.github.com/jsturgis/3b19447b304616f18657
 
-        val videoUrl = "https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_30mb.mp4"
+        val videoUrl = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
         buildMediaSource(Uri.parse(videoUrl))
     }
 

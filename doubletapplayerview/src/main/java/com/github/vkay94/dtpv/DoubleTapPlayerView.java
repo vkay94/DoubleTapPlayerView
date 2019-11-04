@@ -38,7 +38,7 @@ public final class DoubleTapPlayerView extends PlayerView {
 
     /**
      * Default time window in which the double tap is active
-     * Resets if another tap occured within the time window by calling
+     * Resets if another tap occurred within the time window by calling
      * {@link DoubleTapPlayerView#keepInDoubleTapMode()}
      **/
     long DOUBLE_TAP_DELAY = 500;

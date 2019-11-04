@@ -17,7 +17,7 @@
         app:use_controller="true" />
 
     <com.github.vkay94.dtpv.YouTubeDoubleTap
-        android:id="@+id/doubleTapOverlay"
+        android:id="@+id/youtubeDoubleTap"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/dtp_overlay_dim" />
