@@ -3,14 +3,14 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 android {
     compileSdkVersion 29
-    buildToolsVersion "29.0.1"
+    buildToolsVersion "29.0.2"
 
 
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 29
-        versionCode 52
-        versionName "0.5.2"
+        versionCode 60
+        versionName "0.6.0"
 
         vectorDrawables.useSupportLibrary = true
 
@@ -30,6 +30,10 @@ android {
         targetCompatibility '1.8'
     }
 
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
 }
 
 dependencies {
@@ -41,6 +45,7 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
-    implementation "com.google.android.exoplayer:exoplayer:2.10.4"
+    implementation "com.google.android.exoplayer:exoplayer-core:2.10.5"
+    implementation "com.google.android.exoplayer:exoplayer-ui:2.10.5"
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta2'
 }

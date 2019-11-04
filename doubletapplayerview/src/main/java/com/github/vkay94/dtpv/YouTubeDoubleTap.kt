@@ -21,14 +21,14 @@ class YouTubeDoubleTap(context: Context?, attrs: AttributeSet?) : ConstraintLayo
     }
 
     // Layout-Views
-    var tvForward: TextView
-    var tvRewind: TextView
-    var forwardContainer: FrameLayout
-    var rewindContainer: FrameLayout
+    private var tvForward: TextView
+    private var tvRewind: TextView
+    private var forwardContainer: FrameLayout
+    private var rewindContainer: FrameLayout
 
     // Animations
-    var forwardAnimation: AnimationDrawable
-    var rewindAnimation: AnimationDrawable
+    private var forwardAnimation: AnimationDrawable
+    private var rewindAnimation: AnimationDrawable
 
     // Player behaviors
     private var playerView: DoubleTapPlayerView? = null
@@ -104,6 +104,20 @@ class YouTubeDoubleTap(context: Context?, attrs: AttributeSet?) : ConstraintLayo
     fun setForwardRewindIncrementMs(milliseconds: Int): YouTubeDoubleTap {
         this.FAST_FORWARD_REWIND_SKIP = milliseconds
         return this
+    }
+
+    /**
+     * Forwards the video and shows the overlay programmatically
+     */
+    fun forward() {
+        onDoubleTapProgressUp(playerView?.width!!.toFloat(), 0f)
+    }
+
+    /**
+     * Rewinds the video and shows the overlay programmatically
+     */
+    fun rewind() {
+        onDoubleTapProgressUp(0f, 0f)
     }
 
     // PlayerDoubleTapListener methods

@@ -18,6 +18,7 @@ import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.exo_playback_control_view.*
 
 class MainActivity : AppCompatActivity(), PlayerDoubleTapListener {
 
@@ -36,7 +37,11 @@ class MainActivity : AppCompatActivity(), PlayerDoubleTapListener {
         initializePlayer()
 
         // Add DoubleTap behavior
-        doubleTapOverlay
+        initializeDoubleTapPlayerView()
+    }
+
+    private fun initializeDoubleTapPlayerView() {
+        youtubeDoubleTap
             .setPlayer(playerView)
             .setForwardRewindIncrementMs(10000)
             .setSeekListener(object : SeekListener {
@@ -53,14 +58,22 @@ class MainActivity : AppCompatActivity(), PlayerDoubleTapListener {
             })
 
         playerView.activateDoubleTap(true)
-            .setDoubleTapListener(doubleTapOverlay)
+            .setDoubleTapListener(youtubeDoubleTap)
 //            .setDoubleTapListener(this)
             .setDoubleTapDelay(500)
 
-        // Start video
-        // Found at: https://sample-videos.com/
+        btn_ffwd.setOnClickListener {
+            youtubeDoubleTap.forward()
+        }
 
-        val videoUrl = "https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_30mb.mp4"
+        btn_rew.setOnClickListener {
+            youtubeDoubleTap.rewind()
+        }
+
+        // Start video
+        // Found at: https://gist.github.com/jsturgis/3b19447b304616f18657
+
+        val videoUrl = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
         buildMediaSource(Uri.parse(videoUrl))
     }
 

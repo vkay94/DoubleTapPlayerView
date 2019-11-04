@@ -38,7 +38,7 @@ public final class DoubleTapPlayerView extends PlayerView {
 
     /**
      * Default time window in which the double tap is active
-     * Resets if another tap occured within the time window by calling
+     * Resets if another tap occurred within the time window by calling
      * {@link DoubleTapPlayerView#keepInDoubleTapMode()}
      **/
     long DOUBLE_TAP_DELAY = 500;
@@ -90,6 +90,7 @@ public final class DoubleTapPlayerView extends PlayerView {
      * from outside if the double tap is customized / overridden to detect ongoing taps
      */
     public void keepInDoubleTapMode() {
+        isDoubleTap = true;
         mHandler.removeCallbacks(mRunnable);
         mHandler.postDelayed(mRunnable, DOUBLE_TAP_DELAY);
     }
@@ -118,6 +119,9 @@ public final class DoubleTapPlayerView extends PlayerView {
 
     /**
      * Gesture Listener for double tapping
+     *
+     * For more information which methods are called in certain situations look for
+     * {@link GestureDetectorCompat#onTouchEvent}, especially for ACTION_DOWN and ACTION_UP
      */
     private class DoubleTapGestureListener extends GestureDetector.SimpleOnGestureListener {
 
