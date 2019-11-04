@@ -3,14 +3,14 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 android {
     compileSdkVersion 29
-    buildToolsVersion "29.0.1"
+    buildToolsVersion "29.0.2"
 
 
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 29
-        versionCode 52
-        versionName "0.5.2"
+        versionCode 60
+        versionName "0.6.0"
 
         vectorDrawables.useSupportLibrary = true
 
