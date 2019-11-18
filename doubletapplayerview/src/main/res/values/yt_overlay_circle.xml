@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="YouTubeOverlay">
+        <attr name="yt_playerView" format="reference" />
+        <attr name="yt_ffrDuration" format="integer" />
+        <attr name="yt_animationDuration" format="integer" />
+        <attr name="yt_arcSize" format="dimension" />
+        <attr name="yt_tapCircleColor" format="color" />
+        <attr name="yt_backgroundCircleColor" format="color" />
+    </declare-styleable>
+
+    <color name="dtpv_yt_tap_circle_color">#26FFFFFF</color>
+    <color name="dtpv_yt_background_circle_color">#26EEEEEE</color>
+    <dimen name="dtpv_yt_arc_size">50dp</dimen>
+
+</resources>

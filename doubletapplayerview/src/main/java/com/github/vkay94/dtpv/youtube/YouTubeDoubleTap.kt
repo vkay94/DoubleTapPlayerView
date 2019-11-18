@@ -1,4 +1,4 @@
-package com.github.vkay94.dtpv
+package com.github.vkay94.dtpv.youtube
 
 import android.content.Context
 import android.graphics.drawable.AnimationDrawable
@@ -10,6 +10,7 @@ import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import com.github.vkay94.dtpv.*
 import com.google.android.exoplayer2.Player
 
 class YouTubeDoubleTap(context: Context?, attrs: AttributeSet?) : ConstraintLayout(context, attrs),
@@ -50,10 +51,10 @@ class YouTubeDoubleTap(context: Context?, attrs: AttributeSet?) : ConstraintLayo
         forwardContainer = findViewById(R.id.forwardFrameLayout)
         rewindContainer = findViewById(R.id.rewindFrameLayout)
 
-        forwardAnimation =
-            ContextCompat.getDrawable(context!!, R.drawable.yt_forward_animation) as AnimationDrawable
-        rewindAnimation =
-            ContextCompat.getDrawable(context, R.drawable.yt_rewind_animation) as AnimationDrawable
+        forwardAnimation = ContextCompat.getDrawable(context!!,
+            R.drawable.yt_forward_animation) as AnimationDrawable
+        rewindAnimation = ContextCompat.getDrawable(context,
+                R.drawable.yt_rewind_animation) as AnimationDrawable
 
         tvForward.setCompoundDrawablesWithIntrinsicBounds(null, forwardAnimation, null, null)
         tvRewind.setCompoundDrawablesWithIntrinsicBounds(null, rewindAnimation, null, null)

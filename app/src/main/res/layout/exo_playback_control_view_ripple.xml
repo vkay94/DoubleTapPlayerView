@@ -17,14 +17,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <Button
-            android:text="Rewind"
-            android:id="@+id/btn_rew"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="64dp"
-            android:layout_marginEnd="64dp" />
-
         <ImageButton
             android:id="@id/exo_play"
             style="@style/ExoMediaButton.Play"
@@ -36,15 +28,6 @@
             style="@style/ExoMediaButton.Pause"
             android:scaleType="fitCenter"
             tools:ignore="ContentDescription" />
-
-        <Button
-            android:text="Forward"
-            android:id="@+id/btn_ffwd"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="64dp"
-            android:layout_marginStart="64dp" />
-
 
     </LinearLayout>
 
@@ -96,6 +79,23 @@
             android:textColor="@android:color/white"
             android:textSize="13sp"
             tools:text="29:27" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_marginStart="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_switch_mode"
+            android:text="Switch mode" />
 
     </LinearLayout>
 
