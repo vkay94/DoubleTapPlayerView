@@ -3,14 +3,18 @@ package com.github.vkay94.doubletapplayerviewexample
 import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.github.vkay94.doubletapplayerviewexample.dialogs.ConfigDialogColors
 import com.github.vkay94.doubletapplayerviewexample.dialogs.ConfigDialogVarious
 import com.github.vkay94.dtpv.SeekListener
+import com.github.vkay94.dtpv.youtube.YouTubeOverlay
 import kotlinx.android.synthetic.main.activity_video_circle.*
 import kotlinx.android.synthetic.main.exo_playback_control_view_circle.*
 
 
 class VideoActivityCircle : BaseVideoActivity() {
+
+    lateinit var youtubeDoubleTap: YouTubeOverlay
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,21 +34,52 @@ class VideoActivityCircle : BaseVideoActivity() {
     }
 
     private fun initializeDoubleTapPlayerView() {
-        youtubeDoubleTap
-            .setSeekListener(object : SeekListener {
+//        youtubeDoubleTap
+//            .setSeekListener(object : SeekListener {
+//                override fun onVideoStartReached() {
+//                    pausePlayer()
+//                    Toast.makeText(this@VideoActivityCircle,
+//                        "Video start reached", Toast.LENGTH_SHORT
+//                    ).show()
+//                }
+//
+//                override fun onVideoEndReached() {
+//                    Toast.makeText(this@VideoActivityCircle,
+//                        "Video end reached", Toast.LENGTH_SHORT
+//                    ).show()
+//                }
+//            })
+
+        // Setup with code
+        youtubeDoubleTap = YouTubeOverlay(this).apply {
+            setupPlayer(playerView)
+            animationDuration = 800
+            fastForwardRewindDuration = 10000
+            seekListener = object : SeekListener {
                 override fun onVideoStartReached() {
                     pausePlayer()
-                    Toast.makeText(this@VideoActivityCircle,
+                    Toast.makeText(
+                        this@VideoActivityCircle,
                         "Video start reached", Toast.LENGTH_SHORT
                     ).show()
                 }
 
                 override fun onVideoEndReached() {
-                    Toast.makeText(this@VideoActivityCircle,
+                    Toast.makeText(
+                        this@VideoActivityCircle,
                         "Video end reached", Toast.LENGTH_SHORT
                     ).show()
                 }
-            })
+            }
+        }
+
+        val layoutParams = ConstraintLayout.LayoutParams(
+            ConstraintLayout.LayoutParams.MATCH_PARENT,
+            ConstraintLayout.LayoutParams.MATCH_PARENT
+        )
+
+        youtubeDoubleTap.layoutParams = layoutParams
+        cl_container_video_circle.addView(youtubeDoubleTap)
 
         playerView.activateDoubleTap(true)
             .setDoubleTapDelay(650)

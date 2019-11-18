@@ -26,8 +26,13 @@ import kotlinx.android.synthetic.main.yt_overlay_circle.view.*
  * and ROM, some frame drops can occur. But for my devices, I get the same GPU Profiler picture
  * on the official YouTube app, too.
  */
-class YouTubeOverlay(context: Context?, private val attrs: AttributeSet?)
-    : ConstraintLayout(context, attrs), PlayerDoubleTapListener {
+class YouTubeOverlay(context: Context?, private val attrs: AttributeSet?) :
+    ConstraintLayout(context, attrs), PlayerDoubleTapListener {
+
+    constructor(context: Context?) : this(context, null) {
+        // Hide overlay initially when added programmatically
+        hide()
+    }
 
     companion object {
         const val TAG = ".YouTubeOverlay"
@@ -43,19 +48,20 @@ class YouTubeOverlay(context: Context?, private val attrs: AttributeSet?)
     // Player behaviors
     private var playerView: DoubleTapPlayerView? = null
     private var player: Player? = null
-    private var seekListener: SeekListener? = null
-
-    private var fastForwardRewindDuration = 10000
     private var currentRewindForward = 0
 
     init {
         LayoutInflater.from(context).inflate(R.layout.yt_overlay_circle, this, true)
 
         // Initialize UI components
-        forwardAnimation = ContextCompat.getDrawable(context!!,
-                R.drawable.yt_forward_animation) as AnimationDrawable
-        rewindAnimation = ContextCompat.getDrawable(context,
-                R.drawable.yt_rewind_animation) as AnimationDrawable
+        forwardAnimation = ContextCompat.getDrawable(
+            context!!,
+            R.drawable.yt_forward_animation
+        ) as AnimationDrawable
+        rewindAnimation = ContextCompat.getDrawable(
+            context,
+            R.drawable.yt_rewind_animation
+        ) as AnimationDrawable
 
         textview_forward.setCompoundDrawablesWithIntrinsicBounds(null, forwardAnimation, null, null)
         textview_rewind.setCompoundDrawablesWithIntrinsicBounds(null, rewindAnimation, null, null)
@@ -81,46 +87,51 @@ class YouTubeOverlay(context: Context?, private val attrs: AttributeSet?)
      * Sets all optional XML attributes and defaults
      */
     private fun initializeAttributes() {
-        attrs?.let {
-            val a = context.obtainStyledAttributes(it,
-                R.styleable.YouTubeOverlay, 0, 0
-            )
+        if (attrs != null) {
+            val a = context.obtainStyledAttributes(attrs,
+                R.styleable.YouTubeOverlay, 0, 0)
 
             // PlayerView => see onAttackToWindow
             playerViewRef = a.getResourceId(R.styleable.YouTubeOverlay_yt_playerView, -1)
 
             // Durations
-            circle_clip_tap_view.getCircleAnimator().duration = a.getInt(
-                R.styleable.YouTubeOverlay_yt_animationDuration,
-                650
-            ).toLong()
+            circle_clip_tap_view.animationDuration = a.getInt(
+                R.styleable.YouTubeOverlay_yt_animationDuration, 650).toLong()
 
             fastForwardRewindDuration = a.getInt(
-                R.styleable.YouTubeOverlay_yt_ffrDuration, 10000
-            )
+                R.styleable.YouTubeOverlay_yt_ffrDuration, 10000)
 
             // Arc size
             circle_clip_tap_view.arcSize = a.getDimensionPixelSize(
                 R.styleable.YouTubeOverlay_yt_arcSize,
-                context.resources.getDimensionPixelSize(R.dimen.dtpv_yt_arc_size)
-            ).toFloat()
+                context.resources.getDimensionPixelSize(R.dimen.dtpv_yt_arc_size)).toFloat()
 
             // Colors
             circle_clip_tap_view.circleColor = a.getColor(
                 R.styleable.YouTubeOverlay_yt_tapCircleColor,
-                ContextCompat.getColor(context,
-                    R.color.dtpv_yt_tap_circle_color
-                )
+                ContextCompat.getColor(context, R.color.dtpv_yt_tap_circle_color)
             )
 
             circle_clip_tap_view.circleBackgroundColor = a.getColor(
                 R.styleable.YouTubeOverlay_yt_backgroundCircleColor,
-                ContextCompat.getColor(context,
-                    R.color.dtpv_yt_background_circle_color
-                )
+                ContextCompat.getColor(context, R.color.dtpv_yt_background_circle_color)
             )
 
             a.recycle()
+
+        } else {
+            // Set defaults
+
+            circle_clip_tap_view.animationDuration = 650
+
+            circle_clip_tap_view.arcSize =
+                context.resources.getDimensionPixelSize(R.dimen.dtpv_yt_arc_size).toFloat()
+
+            circle_clip_tap_view.circleColor =
+                ContextCompat.getColor(context, R.color.dtpv_yt_tap_circle_color)
+
+            circle_clip_tap_view.circleBackgroundColor =
+                ContextCompat.getColor(context, R.color.dtpv_yt_background_circle_color)
         }
     }
 
@@ -129,7 +140,7 @@ class YouTubeOverlay(context: Context?, private val attrs: AttributeSet?)
 
         // If the PlayerView is set by XML then call the corresponding setter method
         if (playerViewRef != -1)
-            setPlayer((this.parent as View).findViewById(playerViewRef) as DoubleTapPlayerView)
+            setupPlayer((this.parent as View).findViewById(playerViewRef) as DoubleTapPlayerView)
     }
 
     /**
@@ -139,19 +150,24 @@ class YouTubeOverlay(context: Context?, private val attrs: AttributeSet?)
      *
      * @param playerView PlayerView which triggers the event
      */
-    fun setPlayer(playerView: DoubleTapPlayerView): YouTubeOverlay {
+    fun setupPlayer(playerView: DoubleTapPlayerView) {
         this.playerView = playerView
         this.player = playerView.player
-        return this
     }
+
+    /*
+        Properties
+     */
 
     /**
      * Optional: Set a listener to observe whether double tap reached the start / end of the video
      */
-    fun setSeekListener(seekListener: SeekListener): YouTubeOverlay {
-        this.seekListener = seekListener
-        return this
-    }
+    var seekListener: SeekListener? = null
+
+    /**
+     * Forward / rewind duration on a tap
+     */
+    var fastForwardRewindDuration = 10000
 
     /**
      * Color of the scaling circle on touch feedback
@@ -283,8 +299,10 @@ class YouTubeOverlay(context: Context?, private val attrs: AttributeSet?)
      * @param newPosition desired position
      */
     private fun seekToPosition(newPosition: Long) {
-        if (DEBUG) Log.d(TAG,
-            "seekToPosition: newPosition = $newPosition, duration = ${player?.duration}")
+        if (DEBUG) Log.d(
+            TAG,
+            "seekToPosition: newPosition = $newPosition, duration = ${player?.duration}"
+        )
 
         // Start of the video reached
         if (newPosition <= 0) {
