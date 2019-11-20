@@ -2,8 +2,8 @@ package com.github.vkay94.doubletapplayerviewexample
 
 import android.net.Uri
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
-import androidx.constraintlayout.widget.ConstraintLayout
 import com.github.vkay94.doubletapplayerviewexample.dialogs.ConfigDialogColors
 import com.github.vkay94.doubletapplayerviewexample.dialogs.ConfigDialogVarious
 import com.github.vkay94.dtpv.SeekListener
@@ -13,8 +13,6 @@ import kotlinx.android.synthetic.main.exo_playback_control_view_circle.*
 
 
 class VideoActivityCircle : BaseVideoActivity() {
-
-    lateinit var youtubeDoubleTap: YouTubeOverlay
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,7 +49,7 @@ class VideoActivityCircle : BaseVideoActivity() {
 //            })
 
         // Setup with code
-        youtubeDoubleTap = YouTubeOverlay(this).apply {
+        youtubeDoubleTap.apply {
             setupPlayer(playerView)
             animationDuration = 800
             fastForwardRewindDuration = 10000
@@ -71,15 +69,22 @@ class VideoActivityCircle : BaseVideoActivity() {
                     ).show()
                 }
             }
+            performListener = object : YouTubeOverlay.PerformListener {
+                override fun onStart() {
+                    // Do UI changes when double tapping starts including showing the overlay
+                    playerView?.useController = false
+                    youtubeDoubleTap.visibility = View.VISIBLE
+                }
+
+                override fun onEnd() {
+                    // Do UI changes when double tapping starts including hiding the overlay
+                    youtubeDoubleTap.visibility = View.GONE
+                    playerView?.useController = true
+
+                    if (!player?.playWhenReady!!) playerView.showController()
+                }
+            }
         }
-
-        val layoutParams = ConstraintLayout.LayoutParams(
-            ConstraintLayout.LayoutParams.MATCH_PARENT,
-            ConstraintLayout.LayoutParams.MATCH_PARENT
-        )
-
-        youtubeDoubleTap.layoutParams = layoutParams
-        cl_container_video_circle.addView(youtubeDoubleTap)
 
         playerView.activateDoubleTap(true)
             .setDoubleTapDelay(650)

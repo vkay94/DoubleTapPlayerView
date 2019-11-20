@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.yt_overlay_circle.view.*
 
 
 /**
- * Overlay for [DoubleTapPlayerView] to create the same UI/UX experience like the official
+ * Overlay for [DoubleTapPlayerView] to create a similar UI/UX experience like the official
  * YouTube Android app.
  *
  * In comparison to [YouTubeDoubleTap] this overlay has the typical YouTube scaling circle
@@ -31,7 +31,7 @@ class YouTubeOverlay(context: Context?, private val attrs: AttributeSet?) :
 
     constructor(context: Context?) : this(context, null) {
         // Hide overlay initially when added programmatically
-        hide()
+        this.visibility = View.GONE
     }
 
     companion object {
@@ -70,10 +70,7 @@ class YouTubeOverlay(context: Context?, private val attrs: AttributeSet?) :
 
         // This code snipped is executed when the circle scale animation is finished
         circle_clip_tap_view.performAtEnd = {
-            playerView?.useController = true
-            hide()
-
-            if (!player?.playWhenReady!!) playerView?.showController()
+            performListener?.onEnd()
 
             rewind_container.visibility = View.INVISIBLE
             forward_container.visibility = View.INVISIBLE
@@ -165,6 +162,12 @@ class YouTubeOverlay(context: Context?, private val attrs: AttributeSet?) :
     var seekListener: SeekListener? = null
 
     /**
+     * Set a listener to execute some code before and after the animation
+     * (for example UI changes (hide and show views etc.))
+     */
+    var performListener: PerformListener? = null
+
+    /**
      * Forward / rewind duration on a tap
      */
     var fastForwardRewindDuration = 10000
@@ -238,11 +241,13 @@ class YouTubeOverlay(context: Context?, private val attrs: AttributeSet?) :
                 return
         }
 
-        // YouTube behavior: show overlay on MOTION_UP and hide controls then
-        // Also start custom ripple circle on MOTION_UP (see further down)
-        if (this.visibility == View.GONE) {
-            playerView?.useController = false
-            show()
+        // YouTube behavior: show overlay on MOTION_UP
+        // But check whether the first double tap is in invalid area
+        if (this.visibility != View.VISIBLE) {
+            if (posX < playerView?.width!! * 0.35 || posX > playerView?.width!! * 0.65)
+                performListener?.onStart()
+            else
+                return
         }
 
         when {
@@ -351,11 +356,17 @@ class YouTubeOverlay(context: Context?, private val attrs: AttributeSet?) :
         seekToPosition(player?.currentPosition!!.minus(fastForwardRewindDuration))
     }
 
-    private fun hide() {
-        this.visibility = View.GONE
-    }
+    interface PerformListener {
+        /**
+         * Called when the overlay is not visible and onDoubleTapProgressUp event occurred.
+         * Visibility of the overlay should be set to VISIBLE within this interface method
+         */
+        fun onStart()
 
-    private fun show() {
-        this.visibility = View.VISIBLE
+        /**
+         * Called when the circle animation is finished.
+         * Visibility of the overlay should be set to GONE within this interface method
+         */
+        fun onEnd()
     }
 }
