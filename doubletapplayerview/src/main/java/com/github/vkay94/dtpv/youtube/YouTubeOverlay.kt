@@ -20,11 +20,6 @@ import kotlinx.android.synthetic.main.yt_overlay_circle.view.*
  * In comparison to [YouTubeDoubleTap] this overlay has the typical YouTube scaling circle
  * animation and provides some configurations which can't be accomplished with the regular
  * Android Ripple (I didn't find any options in the documentation ...).
- *
- * Be aware that, since this kind of animation calls invalidate() very often, see CircleClapTapView
- * + ValueAnimator, there is more work on the GPU. Depending on the device (especially low end)
- * and ROM, some frame drops can occur. But for my devices, I get the same GPU Profiler picture
- * on the official YouTube app, too.
  */
 class YouTubeOverlay(context: Context?, private val attrs: AttributeSet?) :
     ConstraintLayout(context, attrs), PlayerDoubleTapListener {
@@ -137,19 +132,27 @@ class YouTubeOverlay(context: Context?, private val attrs: AttributeSet?) :
 
         // If the PlayerView is set by XML then call the corresponding setter method
         if (playerViewRef != -1)
-            setupPlayer((this.parent as View).findViewById(playerViewRef) as DoubleTapPlayerView)
+            setPlayerView((this.parent as View).findViewById(playerViewRef) as DoubleTapPlayerView)
     }
 
     /**
      * Obligatory call if playerView is not set via XML!
-     * Links the DoubleTapPlayerView to this view for performing seekTo-calls
-     * and hiding the controller
+     * Links the DoubleTapPlayerView to this view for recognizing the tapped position.
      *
      * @param playerView PlayerView which triggers the event
      */
-    fun setupPlayer(playerView: DoubleTapPlayerView) {
+    fun setPlayerView(playerView: DoubleTapPlayerView) {
         this.playerView = playerView
-        this.player = playerView.player
+    }
+
+    /**
+     * Obligatory call! Needs to be called whenever the Player changes.
+     * Performs seekTo-calls on the ExoPlayer's Player instance.
+     *
+     * @param player PlayerView which triggers the event
+     */
+    fun setPlayer(player: Player) {
+        this.player = player
     }
 
     /*
@@ -209,14 +212,6 @@ class YouTubeOverlay(context: Context?, private val attrs: AttributeSet?) :
         set(value) {
             circle_clip_tap_view.arcSize = value
         }
-
-    /**
-     * Sets the forward / rewind steps, default: 10 seconds
-     */
-    fun setForwardRewindIncrementMs(milliseconds: Int): YouTubeOverlay {
-        this.fastForwardRewindDuration = milliseconds
-        return this
-    }
 
     // PlayerDoubleTapListener methods
     // YouTube behavior: the cases "started", "progressDown" and "finished" aren't handled
@@ -336,7 +331,7 @@ class YouTubeOverlay(context: Context?, private val attrs: AttributeSet?) :
         currentRewindForward += fastForwardRewindDuration / 1000
         textview_forward.text =
             resources.getQuantityString(
-                R.plurals.dtp_rf_seconds,
+                R.plurals.quick_seek_x_second,
                 currentRewindForward,
                 currentRewindForward
             )
@@ -348,7 +343,7 @@ class YouTubeOverlay(context: Context?, private val attrs: AttributeSet?) :
         currentRewindForward += fastForwardRewindDuration / 1000
         textview_rewind.text =
             resources.getQuantityString(
-                R.plurals.dtp_rf_seconds,
+                R.plurals.quick_seek_x_second,
                 currentRewindForward,
                 currentRewindForward
             )

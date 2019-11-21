@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#77000000">
+    android:background="@color/dtp_overlay_dim">
 
 
     <LinearLayout
@@ -120,6 +120,13 @@
             android:layout_height="wrap_content"
             android:id="@+id/btn_switch_mode"
             android:text="Switch mode" />
+
+        <Button
+            android:layout_marginStart="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_change_video"
+            android:text="Change video" />
 
     </LinearLayout>
 

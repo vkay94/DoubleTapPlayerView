@@ -63,7 +63,7 @@ class YouTubeDoubleTap(context: Context?, attrs: AttributeSet?) : ConstraintLayo
         rewindContainer.setOnClickListener {
             currentRewindForward += FAST_FORWARD_REWIND_SKIP / 1000
             tvRewind.text =
-                resources.getQuantityString(R.plurals.dtp_rf_seconds, currentRewindForward, currentRewindForward)
+                resources.getQuantityString(R.plurals.quick_seek_x_second, currentRewindForward, currentRewindForward)
 
             seekToPosition(player?.currentPosition!!.minus(FAST_FORWARD_REWIND_SKIP))
         }
@@ -71,7 +71,7 @@ class YouTubeDoubleTap(context: Context?, attrs: AttributeSet?) : ConstraintLayo
         forwardContainer.setOnClickListener {
             currentRewindForward += FAST_FORWARD_REWIND_SKIP / 1000
             tvForward.text =
-                resources.getQuantityString(R.plurals.dtp_rf_seconds, currentRewindForward, currentRewindForward)
+                resources.getQuantityString(R.plurals.quick_seek_x_second, currentRewindForward, currentRewindForward)
 
             seekToPosition(player?.currentPosition!!.plus(FAST_FORWARD_REWIND_SKIP))
         }
@@ -164,7 +164,7 @@ class YouTubeDoubleTap(context: Context?, attrs: AttributeSet?) : ConstraintLayo
                     forwardContainer.visibility = View.INVISIBLE
 
                 tvRewind.text =
-                    resources.getQuantityString(R.plurals.dtp_rf_seconds, currentRewindForward, currentRewindForward)
+                    resources.getQuantityString(R.plurals.quick_seek_x_second, currentRewindForward, currentRewindForward)
 
                 rewindContainer.visibility = View.VISIBLE
                 rewindAnimation.start()
@@ -177,7 +177,7 @@ class YouTubeDoubleTap(context: Context?, attrs: AttributeSet?) : ConstraintLayo
                     rewindContainer.visibility = View.INVISIBLE
 
                 tvForward.text =
-                    resources.getQuantityString(R.plurals.dtp_rf_seconds, currentRewindForward, currentRewindForward)
+                    resources.getQuantityString(R.plurals.quick_seek_x_second, currentRewindForward, currentRewindForward)
 
                 forwardContainer.visibility = View.VISIBLE
                 forwardAnimation.start()

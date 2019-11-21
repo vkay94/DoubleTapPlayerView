@@ -14,6 +14,8 @@ import kotlinx.android.synthetic.main.exo_playback_control_view_circle.*
 
 class VideoActivityCircle : BaseVideoActivity() {
 
+    private var currentVideoId = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_video_circle)
@@ -23,34 +25,35 @@ class VideoActivityCircle : BaseVideoActivity() {
 
         // Add DoubleTap behavior
         initializeDoubleTapPlayerView()
+        youtubeDoubleTap.setPlayer(player!!)
+
         initializeConfigButtons()
 
         btn_switch_mode.setOnClickListener {
             startActivity(newIntent(this@VideoActivityCircle, VideoActivityRipple::class.java))
             finish()
         }
+
+        btn_change_video.setOnClickListener {
+            releasePlayer()
+            initializePlayer()
+
+            // Player has been released (set to null), so it has to be re-added to the overlay
+            youtubeDoubleTap.setPlayer(player!!)
+
+            currentVideoId = (currentVideoId + 1).rem(DataAndUtils.videoList.size)
+            val videoUrl = DataAndUtils.videoList[currentVideoId]
+            buildMediaSource(Uri.parse(videoUrl))
+        }
+
+        // Start first video at start
+        val videoUrl = DataAndUtils.videoList[currentVideoId]
+        buildMediaSource(Uri.parse(videoUrl))
     }
 
     private fun initializeDoubleTapPlayerView() {
-//        youtubeDoubleTap
-//            .setSeekListener(object : SeekListener {
-//                override fun onVideoStartReached() {
-//                    pausePlayer()
-//                    Toast.makeText(this@VideoActivityCircle,
-//                        "Video start reached", Toast.LENGTH_SHORT
-//                    ).show()
-//                }
-//
-//                override fun onVideoEndReached() {
-//                    Toast.makeText(this@VideoActivityCircle,
-//                        "Video end reached", Toast.LENGTH_SHORT
-//                    ).show()
-//                }
-//            })
-
-        // Setup with code
         youtubeDoubleTap.apply {
-            setupPlayer(playerView)
+            setPlayerView(playerView)
             animationDuration = 800
             fastForwardRewindDuration = 10000
             seekListener = object : SeekListener {
@@ -89,9 +92,6 @@ class VideoActivityCircle : BaseVideoActivity() {
         playerView.activateDoubleTap(true)
             .setDoubleTapDelay(650)
             .setDoubleTapListener(youtubeDoubleTap)
-
-        val videoUrl = DataAndUtils.videoList.first()
-        buildMediaSource(Uri.parse(videoUrl))
     }
 
     private fun initializeConfigButtons() {
