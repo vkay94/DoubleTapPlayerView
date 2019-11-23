@@ -5,25 +5,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <com.github.vkay94.dtpv.youtube.views.CircleClipTapView
+        android:id="@+id/circle_clip_tap_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="false"
+        android:focusable="false" />
+
     <FrameLayout
-        android:id="@+id/rewindFrameLayout"
+        android:id="@+id/rewind_container"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_marginEnd="0dp"
-        android:layout_marginRight="0dp"
-        android:background="@drawable/yt_rewind_view"
-        android:clickable="true"
-        android:focusable="true"
-        android:foreground="@drawable/yt_rewind_ripple"
+        android:clickable="false"
+        android:focusable="false"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/forwardFrameLayout"
+        app:layout_constraintEnd_toStartOf="@id/forward_container"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:visibility="visible">
 
         <TextView
-            android:id="@+id/tvRewind"
+            android:id="@+id/textview_rewind"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -33,28 +36,23 @@
             tools:drawableTop="@drawable/ic_rewind_animation_05"
             tools:text="20 Sekunden" />
 
-
     </FrameLayout>
 
     <FrameLayout
-        android:id="@+id/forwardFrameLayout"
+        android:id="@+id/forward_container"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_marginStart="0dp"
-        android:layout_marginLeft="0dp"
-        android:background="@drawable/yt_forward_view"
-        android:clickable="true"
-        android:focusable="true"
-        android:foreground="@drawable/yt_forward_ripple"
+        android:clickable="false"
+        android:focusable="false"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/rewindFrameLayout"
+        app:layout_constraintStart_toEndOf="@id/rewind_container"
         app:layout_constraintTop_toTopOf="parent"
         tools:visibility="visible">
 
         <TextView
-            android:id="@+id/tvForward"
+            android:id="@+id/textview_forward"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

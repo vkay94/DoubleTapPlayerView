@@ -8,17 +8,17 @@ import com.github.vkay94.doubletapplayerviewexample.dialogs.ConfigDialogColors
 import com.github.vkay94.doubletapplayerviewexample.dialogs.ConfigDialogVarious
 import com.github.vkay94.dtpv.SeekListener
 import com.github.vkay94.dtpv.youtube.YouTubeOverlay
-import kotlinx.android.synthetic.main.activity_video_circle.*
-import kotlinx.android.synthetic.main.exo_playback_control_view_circle.*
+import kotlinx.android.synthetic.main.activity_video.*
+import kotlinx.android.synthetic.main.exo_playback_control_view_yt.*
 
 
-class VideoActivityCircle : BaseVideoActivity() {
+class VideoActivity : BaseVideoActivity() {
 
     private var currentVideoId = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_video_circle)
+        setContentView(R.layout.activity_video)
 
         this.videoPlayer = playerView
         initializePlayer()
@@ -28,11 +28,6 @@ class VideoActivityCircle : BaseVideoActivity() {
         youtubeDoubleTap.setPlayer(player!!)
 
         initializeConfigButtons()
-
-        btn_switch_mode.setOnClickListener {
-            startActivity(newIntent(this@VideoActivityCircle, VideoActivityRipple::class.java))
-            finish()
-        }
 
         btn_change_video.setOnClickListener {
             releasePlayer()
@@ -60,14 +55,14 @@ class VideoActivityCircle : BaseVideoActivity() {
                 override fun onVideoStartReached() {
                     pausePlayer()
                     Toast.makeText(
-                        this@VideoActivityCircle,
+                        this@VideoActivity,
                         "Video start reached", Toast.LENGTH_SHORT
                     ).show()
                 }
 
                 override fun onVideoEndReached() {
                     Toast.makeText(
-                        this@VideoActivityCircle,
+                        this@VideoActivity,
                         "Video end reached", Toast.LENGTH_SHORT
                     ).show()
                 }
@@ -123,7 +118,7 @@ class VideoActivityCircle : BaseVideoActivity() {
 
                 override fun onArcSizeChanged(newDimen: Int) {
                     youtubeDoubleTap.arcSize =
-                        DataAndUtils.dpToPx(this@VideoActivityCircle, newDimen.toFloat())
+                        DataAndUtils.dpToPx(this@VideoActivity, newDimen.toFloat())
                 }
 
             }, playerView.doubleTapDelay.toInt(), youtubeDoubleTap.animationDuration.toInt(),

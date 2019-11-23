@@ -10,8 +10,8 @@
         <attr name="yt_backgroundCircleColor" format="color" />
     </declare-styleable>
 
-    <color name="dtpv_yt_tap_circle_color">#26FFFFFF</color>
-    <color name="dtpv_yt_background_circle_color">#26EEEEEE</color>
+    <color name="dtpv_yt_tap_circle_color">#15FFFFFF</color>
+    <color name="dtpv_yt_background_circle_color">#15EEEEEE</color>
     <dimen name="dtpv_yt_arc_size">50dp</dimen>
 
 </resources>

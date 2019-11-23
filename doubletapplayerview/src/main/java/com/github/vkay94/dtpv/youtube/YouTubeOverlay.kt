@@ -10,7 +10,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.github.vkay94.dtpv.*
 import com.google.android.exoplayer2.Player
-import kotlinx.android.synthetic.main.yt_overlay_circle.view.*
+import kotlinx.android.synthetic.main.yt_overlay.view.*
 
 
 /**
@@ -46,7 +46,7 @@ class YouTubeOverlay(context: Context?, private val attrs: AttributeSet?) :
     private var currentRewindForward = 0
 
     init {
-        LayoutInflater.from(context).inflate(R.layout.yt_overlay_circle, this, true)
+        LayoutInflater.from(context).inflate(R.layout.yt_overlay, this, true)
 
         // Initialize UI components
         forwardAnimation = ContextCompat.getDrawable(

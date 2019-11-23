@@ -17,7 +17,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:use_controller="true"
-        app:controller_layout_id="@layout/exo_playback_control_view_circle"
+        app:controller_layout_id="@layout/exo_playback_control_view_yt"
         tools:visibility="visible" />
 
     <com.github.vkay94.dtpv.youtube.YouTubeOverlay
