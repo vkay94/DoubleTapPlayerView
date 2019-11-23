@@ -68,13 +68,13 @@ class VideoActivity : BaseVideoActivity() {
                 }
             }
             performListener = object : YouTubeOverlay.PerformListener {
-                override fun onStart() {
+                override fun onAnimationStart() {
                     // Do UI changes when double tapping starts including showing the overlay
                     playerView?.useController = false
                     youtubeDoubleTap.visibility = View.VISIBLE
                 }
 
-                override fun onEnd() {
+                override fun onAnimationEnd() {
                     // Do UI changes when double tapping starts including hiding the overlay
                     youtubeDoubleTap.visibility = View.GONE
                     playerView?.useController = true

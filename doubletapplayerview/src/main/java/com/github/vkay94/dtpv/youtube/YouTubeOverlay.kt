@@ -45,6 +45,9 @@ class YouTubeOverlay(context: Context?, private val attrs: AttributeSet?) :
     private var player: Player? = null
     private var currentRewindForward = 0
 
+    // Is true when DoubleTapping starts, set it to false on ProgressUp
+    private var hasStarted = false
+
     init {
         LayoutInflater.from(context).inflate(R.layout.yt_overlay, this, true)
 
@@ -65,7 +68,7 @@ class YouTubeOverlay(context: Context?, private val attrs: AttributeSet?) :
 
         // This code snipped is executed when the circle scale animation is finished
         circle_clip_tap_view.performAtEnd = {
-            performListener?.onEnd()
+            performListener?.onAnimationEnd()
 
             rewind_container.visibility = View.INVISIBLE
             forward_container.visibility = View.INVISIBLE
@@ -213,6 +216,10 @@ class YouTubeOverlay(context: Context?, private val attrs: AttributeSet?) :
             circle_clip_tap_view.arcSize = value
         }
 
+    override fun onDoubleTapStarted(posX: Float, posY: Float) {
+        hasStarted = true
+    }
+
     // PlayerDoubleTapListener methods
     // YouTube behavior: the cases "started", "progressDown" and "finished" aren't handled
     //                   (the overlay does not disappear when the double tap mode is over,
@@ -240,13 +247,18 @@ class YouTubeOverlay(context: Context?, private val attrs: AttributeSet?) :
         // But check whether the first double tap is in invalid area
         if (this.visibility != View.VISIBLE) {
             if (posX < playerView?.width!! * 0.35 || posX > playerView?.width!! * 0.65)
-                performListener?.onStart()
+                performListener?.onAnimationStart()
             else
                 return
         }
 
         when {
             posX < playerView?.width!! * 0.35 -> {
+
+                if (hasStarted) {
+                    hasStarted = false
+                    performListener?.onDoubleTapStart()
+                }
 
                 // First time tap or switched
                 if (rewind_container.visibility != View.VISIBLE) {
@@ -265,6 +277,11 @@ class YouTubeOverlay(context: Context?, private val attrs: AttributeSet?) :
                 rewinding()
             }
             posX > playerView?.width!! * 0.65 -> {
+
+                if (hasStarted) {
+                    hasStarted = false
+                    performListener?.onDoubleTapStart()
+                }
 
                 // First time tap or switched
                 if (forward_container.visibility != View.VISIBLE) {
@@ -289,6 +306,11 @@ class YouTubeOverlay(context: Context?, private val attrs: AttributeSet?) :
                 circle_clip_tap_view.getCircleAnimator().end()
             }
         }
+    }
+
+    override fun onDoubleTapFinished() {
+        hasStarted = false
+        performListener?.onDoubleTapEnd()
     }
 
     /**
@@ -354,14 +376,27 @@ class YouTubeOverlay(context: Context?, private val attrs: AttributeSet?) :
     interface PerformListener {
         /**
          * Called when the overlay is not visible and onDoubleTapProgressUp event occurred.
-         * Visibility of the overlay should be set to VISIBLE within this interface method
+         * Visibility of the overlay should be set to VISIBLE within this interface method.
          */
-        fun onStart()
+        fun onAnimationStart()
 
         /**
          * Called when the circle animation is finished.
-         * Visibility of the overlay should be set to GONE within this interface method
+         * Visibility of the overlay should be set to GONE within this interface method.
          */
-        fun onEnd()
+        fun onAnimationEnd()
+
+        /**
+         * Called on first valid onDoubleTapProgressUp event.
+         * Possible use-case: The overlay is still animating/visible but the double tap mode is
+         * already over and you want to re-hide some UI elements which were visible because of
+         * onDoubleTapEnd (interacting with the UI)
+         */
+        fun onDoubleTapStart() {}
+
+        /**
+         * Called when onDoubleTapFinished is called.
+         */
+        fun onDoubleTapEnd() {}
     }
 }

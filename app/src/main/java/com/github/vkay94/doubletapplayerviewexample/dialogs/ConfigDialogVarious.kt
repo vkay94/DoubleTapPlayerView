@@ -12,15 +12,15 @@ import kotlinx.android.synthetic.main.dialog_various.*
 class ConfigDialogVarious : DialogFragment() {
 
     lateinit var listener: VariousChangedListener
-    val minDoubleTapDuration = 500
-    val minAnimationDuration = 500
-    val minArcSize = 0
+    private val minDoubleTapDuration = 500
+    private val minAnimationDuration = 500
+    private val minArcSize = 0
 
-    val maxDoubleTapDuration = 2000
-    val maxAnimationDuration = 2500
-    val maxArcSize = 200
+    private val maxDoubleTapDuration = 2500
+    private val maxAnimationDuration = 3000
+    private val maxArcSize = 200
 
-    val durationSteps = 25
+    val durationSteps = 50
     val arcSteps = 5
 
     var currentDoubleTapDuration: Int = 500
