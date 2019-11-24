@@ -21,65 +21,57 @@ allprojects {
 }
 
 dependencies {
-  implementation 'com.github.vkay94:DoubleTapPlayerView:0.6.0'
+  implementation 'com.github.vkay94:DoubleTapPlayerView:0.7.0'
 }
 ```
 
-How to use
+Usage
 -------------------
 
-In the following I describe how to implement and configure the YouTube-alike behavior
-([see the sample app for a possible implementation][MainActivity]). 
-
-#### Basic usage
-
-Layout:
+**View**
 
 ```xml
-<FrameLayout>
-
-    <!-- Replace ExoPlayer's PlayerView -->
-    <com.github.vkay94.dtpv.DoubleTapPlayerView
-            android:id="@+id/doubleTapPlayerView"
-            app:player_layout_id="@layout/exo_simple_player_view"
-            app:use_controller="true"
-            ... 
-    />
-
-    <!-- Other views e.g. ProgressBar etc  -->
-
-    <!-- Add the overlay on top of PlayerView -->
-    <com.github.vkay94.dtpv.YouTubeDoubleTap
-            android:background="@color/dtp_overlay_dim"
-            android:id="@+id/youTubeDoubleTap"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-</FrameLayout>
+<com.github.vkay94.dtpv.youtube.YouTubeOverlay
+     android:id="@+id/youTubeOverlay"
+     android:layout_width="match_parent"
+     android:layout_height="match_parent" 
+     app:yt_playerView="@+id/playerView"
+     />
 ```
 
-Activity (Kotlin): 
+**Custom attributes**
+
+| Attribute | Description | Type |
+| --------- | ----------- |------|
+| **`yt_ffrDuration`** | Fast forward/rewind skip per tap | `integer` *[time in ms]* |
+| **`yt_animationDuration`** | Speed of the circle scaling / time to expand completely | `integer` *[time in ms]* |
+| **`yt_arcSize`** | Sets the shape, the higher the value the more roundish it becomes | `dimen` |
+| **`yt_tapCircleColor`** | Color of the circle which expands | `color` |
+| **`yt_ffrDuration`** | Background color of the arc shape | `color` |
+
+Every attribute can also be get/set by Getter/Setter within code. 
+In the demo app you can test different values for these attributes.
+
+**Activity (Kotlin)** 
 
 ```kotlin
-// Link the PlayerView to the overlay to pass increment to the Player (seekTo)
-// Important: set the (Simple)ExoPlayer to the PlayerView before this call
-youTubeDoubleTap
-    .setPlayer(doubletapplayerview)
-    .setForwardRewindIncrementMs(5000)
+youTubeOverlay.apply {
+    performListener = object : YouTubeOverlay.PerformListener {
+        override fun onAnimationStart() {
+            // Do UI changes when double tapping starts (e.g. hide controller)
+            youtubeDoubleTap.visibility = View.VISIBLE
+        }
 
-// Set YouTube overlay to the PlayerView and double tapping enabled (false by default)
-doubleTapPlayerView
-    .activateDoubleTap(true)
-    .setDoubleTapDelay(500)
-    .setDoubleTapListener(youTubeDoubleTap)
+        override fun onAnimationEnd() {
+            // Do UI changes when double tapping ends (e.g. show controller)
+            youtubeDoubleTap.visibility = View.GONE
+        }
+    }
+}    
 ```
 
-#### Additional features
-
-* **SeekListener**: By implementing this interface you can react to the 
-                    events *onVideoStartReached* and *onVideoEndReached*          
-* **Toogle via code**: You can simulate a double tap programmatically e.g. 
-                    when a button clicked 
+For a full example implementation take a look at the [VideoActivity][VideoActivity] in the demo app.
 
 [PlayerDoubleTapListener]: https://github.com/vkay94/DoubleTapPlayerView/blob/master/doubletapplayerview/src/main/java/com/github/vkay94/dtpv/PlayerDoubleTapListener.java
 [MainActivity]: https://github.com/vkay94/DoubleTapPlayerView/blob/master/app/src/main/java/com/github/vkay94/doubletapplayerviewexample/MainActivity.kt
+[VideoActivity]: https://github.com/vkay94/DoubleTapPlayerView/blob/dev/app/src/main/java/com/github/vkay94/doubletapplayerviewexample/VideoActivity.kt

@@ -75,7 +75,7 @@ class VideoActivity : BaseVideoActivity() {
                 }
 
                 override fun onAnimationEnd() {
-                    // Do UI changes when double tapping starts including hiding the overlay
+                    // Do UI changes when double tapping ends including hiding the overlay
                     youtubeDoubleTap.visibility = View.GONE
                     playerView?.useController = true
 
