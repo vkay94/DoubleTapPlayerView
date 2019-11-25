@@ -20,7 +20,7 @@ public final class DoubleTapPlayerView extends PlayerView {
     public static final String TAG = ".DoubleTapPlayerView";
     public static boolean DEBUG = !BuildConfig.BUILD_TYPE.equals("release");
 
-    private boolean doubleTapActivated = false;
+    private boolean doubleTapActivated = true;
 
     private GestureDetectorCompat mDetector;
 
