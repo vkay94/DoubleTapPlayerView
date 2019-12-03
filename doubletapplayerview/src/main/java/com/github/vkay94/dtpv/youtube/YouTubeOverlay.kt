@@ -45,9 +45,6 @@ class YouTubeOverlay(context: Context?, private val attrs: AttributeSet?) :
     private var player: Player? = null
     private var currentRewindForward = 0
 
-    // Is true when DoubleTapping starts, set it to false on ProgressUp
-    private var hasStarted = false
-
     init {
         LayoutInflater.from(context).inflate(R.layout.yt_overlay, this, true)
 
@@ -216,18 +213,6 @@ class YouTubeOverlay(context: Context?, private val attrs: AttributeSet?) :
             circle_clip_tap_view.arcSize = value
         }
 
-    override fun onDoubleTapStarted(posX: Float, posY: Float) {
-        hasStarted = true
-    }
-
-    // PlayerDoubleTapListener methods
-    // YouTube behavior: the cases "started", "progressDown" and "finished" aren't handled
-    //                   (the overlay does not disappear when the double tap mode is over,
-    //                   ongoing taps simply do not trigger forward/rewind, the animation is finishing
-    //                   separately (you can test it on the official YouTube app with setting
-    //                   animation duration scaling to 5x in the developer options).
-    //
-    //                   It disappears when the circle scale animation is finished.
     override fun onDoubleTapProgressUp(posX: Float, posY: Float) {
         if (DEBUG) Log.d(TAG, "onDoubleTapProgressUp: $posX")
 
@@ -255,11 +240,6 @@ class YouTubeOverlay(context: Context?, private val attrs: AttributeSet?) :
         when {
             posX < playerView?.width!! * 0.35 -> {
 
-                if (hasStarted) {
-                    hasStarted = false
-                    performListener?.onDoubleTapStart()
-                }
-
                 // First time tap or switched
                 if (rewind_container.visibility != View.VISIBLE) {
                     currentRewindForward = 0
@@ -277,11 +257,6 @@ class YouTubeOverlay(context: Context?, private val attrs: AttributeSet?) :
                 rewinding()
             }
             posX > playerView?.width!! * 0.65 -> {
-
-                if (hasStarted) {
-                    hasStarted = false
-                    performListener?.onDoubleTapStart()
-                }
 
                 // First time tap or switched
                 if (forward_container.visibility != View.VISIBLE) {
@@ -306,11 +281,6 @@ class YouTubeOverlay(context: Context?, private val attrs: AttributeSet?) :
                 circle_clip_tap_view.getCircleAnimator().end()
             }
         }
-    }
-
-    override fun onDoubleTapFinished() {
-        hasStarted = false
-        performListener?.onDoubleTapEnd()
     }
 
     /**
@@ -385,18 +355,5 @@ class YouTubeOverlay(context: Context?, private val attrs: AttributeSet?) :
          * Visibility of the overlay should be set to GONE within this interface method.
          */
         fun onAnimationEnd()
-
-        /**
-         * Called on first valid onDoubleTapProgressUp event.
-         * Possible use-case: The overlay is still animating/visible but the double tap mode is
-         * already over and you want to re-hide some UI elements which were visible because of
-         * onDoubleTapEnd (interacting with the UI)
-         */
-        fun onDoubleTapStart() {}
-
-        /**
-         * Called when onDoubleTapFinished is called.
-         */
-        fun onDoubleTapEnd() {}
     }
 }

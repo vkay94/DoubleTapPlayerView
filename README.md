@@ -10,8 +10,9 @@ Created to handle fast forward/rewind behavior like YouTube.
 
 # Sample app
 
-If you would like to test the YouTube overlay, then you can either download the [demo app][demoapp]
-or build it yourself from code. It provides all modifications available.
+If you would like to test the YouTube overlay, then you can either download the demo app,
+which can be found under Assets of the release or build it yourself from code. 
+It provides all modifications available.
 
 The sample videos own by *Blender Foundation* and a full list can be found [here][videolist].
 
@@ -86,6 +87,7 @@ youtube_overlay.apply {
     }
 }  
 
+// Call this method whenever the player is released and recreated
 youtube_overlay.setPlayer(simpleExoPlayer)
 ```
 
@@ -133,24 +135,13 @@ This interface listens to the *lifecycle* of the overlay.
 
 **onAnimationStart()** *(obligatory)*
 
-Called when the overlay is not visible and a valid onDoubleTapProgressUp event occurred.
+Called when the overlay is not visible and the first valid double tap event occurred.
 Visibility of the overlay should be set to VISIBLE within this interface method.
 
 **onAnimationEnd()** *(obligatory)*
 
 Called when the circle animation is finished.
 Visibility of the overlay should be set to GONE within this interface method.
-
-**onDoubleTapStart()**
-
-Called on first valid onDoubleTapProgressUp event.
-Possible use-case: The overlay is still animating/visible but the double tap mode is
-already over (`animationDuration` is greater than `doubleTapDelay`) and you want to 
-re-hide some UI elements without interrupting the animation.
-
-**onDoubleTapEnd()**
-
-Called when double tap mode is finished.
 
 ### SeekListener
 
