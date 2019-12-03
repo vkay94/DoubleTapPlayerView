@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <plurals name="dtp_rf_seconds" tools:ignore="MissingQuantity">
-        <item quantity="one">%1$d секунда</item>
-        <item quantity="other">%1$d секунды</item>
-    </plurals>
-</resources>

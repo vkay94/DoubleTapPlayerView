@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbars="none"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="16dp"
+            android:text="Tap Circle Color"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.flask.colorpicker.ColorPickerView
+                android:id="@+id/tap_color_picker_view"
+                android:layout_width="wrap_content"
+                android:layout_height="192dp"
+                app:alphaSlider="true"
+                app:alphaSliderView="@+id/v_tap_alpha_slider"
+                app:density="12"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:wheelType="FLOWER" />
+
+            <com.flask.colorpicker.slider.AlphaSlider
+                android:id="@+id/v_tap_alpha_slider"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tap_color_picker_view" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:id="@+id/seperator1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="16dp"
+            android:background="#BBB" />
+
+        <TextView
+            android:paddingBottom="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Circle Background Color"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.flask.colorpicker.ColorPickerView
+                android:id="@+id/background_color_picker_view"
+                android:layout_width="wrap_content"
+                android:layout_height="192dp"
+                app:alphaSlider="true"
+                app:alphaSliderView="@+id/v_background_alpha_slider"
+                app:density="12"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:wheelType="FLOWER" />
+
+            <com.flask.colorpicker.slider.AlphaSlider
+                android:id="@+id/v_background_alpha_slider"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/background_color_picker_view" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+</ScrollView>

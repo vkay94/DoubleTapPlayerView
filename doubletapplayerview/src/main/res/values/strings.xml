@@ -1,7 +1,3 @@
 <resources>
     <string name="app_name" translatable="false">DoubleTapPlayer</string>
-    <plurals name="dtp_rf_seconds">
-        <item quantity="one">%1$d second</item>
-        <item quantity="other">%1$d seconds</item>
-    </plurals>
 </resources>

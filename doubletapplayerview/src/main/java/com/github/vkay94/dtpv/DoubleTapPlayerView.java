@@ -20,7 +20,7 @@ public final class DoubleTapPlayerView extends PlayerView {
     public static final String TAG = ".DoubleTapPlayerView";
     public static boolean DEBUG = !BuildConfig.BUILD_TYPE.equals("release");
 
-    private boolean doubleTapActivated = false;
+    private boolean doubleTapActivated = true;
 
     private GestureDetectorCompat mDetector;
 
@@ -41,7 +41,7 @@ public final class DoubleTapPlayerView extends PlayerView {
      * Resets if another tap occurred within the time window by calling
      * {@link DoubleTapPlayerView#keepInDoubleTapMode()}
      **/
-    long DOUBLE_TAP_DELAY = 500;
+    long doubleTapDelay = 650;
 
     public DoubleTapPlayerView(Context context) {
         this(context, null);
@@ -79,8 +79,12 @@ public final class DoubleTapPlayerView extends PlayerView {
      * a gesture detector method instead of normal tap (see {@link PlayerView#onTouchEvent})
      */
     public DoubleTapPlayerView setDoubleTapDelay(int milliSeconds) {
-        this.DOUBLE_TAP_DELAY = milliSeconds;
+        this.doubleTapDelay = milliSeconds;
         return this;
+    }
+
+    public long getDoubleTapDelay() {
+        return this.doubleTapDelay;
     }
 
     /**
@@ -92,7 +96,7 @@ public final class DoubleTapPlayerView extends PlayerView {
     public void keepInDoubleTapMode() {
         isDoubleTap = true;
         mHandler.removeCallbacks(mRunnable);
-        mHandler.postDelayed(mRunnable, DOUBLE_TAP_DELAY);
+        mHandler.postDelayed(mRunnable, doubleTapDelay);
     }
 
     /**
