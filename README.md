@@ -34,7 +34,7 @@ Then, in your app's directory, you can include it the same way like other librar
 
 ```gradle
 dependencies {
-  implementation 'com.github.vkay94:DoubleTapPlayerView:0.7.0'
+  implementation 'com.github.vkay94:DoubleTapPlayerView:0.7.1'
 }
 ```
 
