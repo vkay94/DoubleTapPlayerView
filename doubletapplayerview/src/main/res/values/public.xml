@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <public />
+
+    <public name="YouTubeOverlay_yt_playerView" type="attr" />
+    <public name="YouTubeOverlay_yt_ffrDuration" type="attr" />
+    <public name="YouTubeOverlay_yt_animationDuration" type="attr" />
+    <public name="YouTubeOverlay_yt_arcSize" type="attr" />
+    <public name="YouTubeOverlay_yt_tapCircleColor" type="attr" />
+    <public name="YouTubeOverlay_yt_backgroundCircleColor" type="attr" />
+</resources>

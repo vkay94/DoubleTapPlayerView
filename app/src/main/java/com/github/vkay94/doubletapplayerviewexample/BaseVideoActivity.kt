@@ -8,12 +8,11 @@ import android.os.Bundle
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import com.github.vkay94.dtpv.DoubleTapPlayerView
-import com.google.android.exoplayer2.*
-import com.google.android.exoplayer2.source.ExtractorMediaSource
-import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection
-import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
-import com.google.android.exoplayer2.trackselection.TrackSelection
-import com.google.android.exoplayer2.upstream.BandwidthMeter
+import com.google.android.exoplayer2.DefaultLoadControl
+import com.google.android.exoplayer2.LoadControl
+import com.google.android.exoplayer2.Player
+import com.google.android.exoplayer2.SimpleExoPlayer
+import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
@@ -42,7 +41,7 @@ open class BaseVideoActivity : AppCompatActivity() {
             Util.getUserAgent(this@BaseVideoActivity, resources.getString(R.string.app_name)),
             bandwidthMeter
         )
-        val videoSource = ExtractorMediaSource.Factory(dataSourceFactory)
+        val videoSource = ProgressiveMediaSource.Factory(dataSourceFactory, Mp4ExtractorFactory())
             .createMediaSource(mUri)
 
         player?.prepare(videoSource)
@@ -60,19 +59,10 @@ open class BaseVideoActivity : AppCompatActivity() {
                 )
                 .createDefaultLoadControl()
 
-            val bandwidthMeter: BandwidthMeter = DefaultBandwidthMeter.Builder(this).build()
-            val defaultRenderersFactory = DefaultRenderersFactory(this)
+            player = SimpleExoPlayer.Builder(this)
+                .setLoadControl(loadControl)
+                .build()
 
-            val videoTrackSelectionFactory: TrackSelection.Factory =
-                AdaptiveTrackSelection.Factory(bandwidthMeter)
-            val trackSelector = DefaultTrackSelector(videoTrackSelectionFactory)
-
-            player = ExoPlayerFactory.newSimpleInstance(
-                this,
-                defaultRenderersFactory,
-                trackSelector,
-                loadControl
-            )
             playerView.player = player
         }
     }

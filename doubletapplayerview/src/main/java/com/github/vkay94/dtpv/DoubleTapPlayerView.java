@@ -31,7 +31,7 @@ public final class DoubleTapPlayerView extends PlayerView {
 
     private Handler mHandler = new Handler();
     private Runnable mRunnable = () -> {
-        Log.d(TAG, "Runnable called");
+        if (DEBUG) Log.d(TAG, "Runnable called");
         isDoubleTap = false;
         controls.onDoubleTapFinished();
     };
@@ -90,7 +90,7 @@ public final class DoubleTapPlayerView extends PlayerView {
     /**
      * Resets the timeout to keep in double tap mode.
      *
-     * Called once in {@link PlayerDoubleTapListener#onDoubleTapStarted} Needs to be called
+     * Called once in {@link PlayerDoubleTapListener#onDoubleTapStarted}. Needs to be called
      * from outside if the double tap is customized / overridden to detect ongoing taps
      */
     public void keepInDoubleTapMode() {
