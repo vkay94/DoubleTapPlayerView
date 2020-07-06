@@ -6,13 +6,13 @@ apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 29
-    buildToolsVersion '29.0.2'
+    buildToolsVersion '29.0.3'
     defaultConfig {
         applicationId "com.github.vkay94.doubletapplayerviewexample"
-        minSdkVersion 21
+        minSdkVersion 16
         targetSdkVersion 29
-        versionCode 70
-        versionName "0.7.0"
+        versionCode libVersionCode
+        versionName "$libMajor.$libMinor.$libPatch"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -33,16 +33,13 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "androidx.appcompat:appcompat:$appcompat_version"
-    implementation 'androidx.core:core-ktx:1.1.0'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.2.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta2'
+    implementation "androidx.core:core-ktx:$core_ktx_version"
+    implementation "androidx.constraintlayout:constraintlayout:$constraintlayout_version"
 
     // ExoPlayer2
     implementation "com.google.android.exoplayer:exoplayer-core:$exoplayer_version"
     implementation "com.google.android.exoplayer:exoplayer-ui:$exoplayer_version"
 
-    implementation 'com.github.QuadFlask:colorpicker:0.0.15'
+    implementation "com.github.QuadFlask:colorpicker:$colorpicker_version"
     implementation project(path: ':doubletapplayerview')
 }
