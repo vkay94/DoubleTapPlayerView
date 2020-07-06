@@ -17,7 +17,7 @@ import com.github.vkay94.dtpv.R
  * Draws a arc shape and provides a circle scaling animation.
  * Used by YouTubeOverlay.
  */
-class CircleClipTapView(context: Context?, attrs: AttributeSet) :
+internal class CircleClipTapView(context: Context?, attrs: AttributeSet) :
     View(context, attrs) {
 
     private var backgroundPaint = Paint()
@@ -33,8 +33,8 @@ class CircleClipTapView(context: Context?, attrs: AttributeSet) :
 
     // Circle
 
-    var cX = 0f
-    var cY = 0f
+    private var cX = 0f
+    private var cY = 0f
 
     private var currentRadius = 0f
     private var minRadius: Int = 0
