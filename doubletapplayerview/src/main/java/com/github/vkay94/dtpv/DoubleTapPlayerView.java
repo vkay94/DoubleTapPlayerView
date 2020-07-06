@@ -15,7 +15,7 @@ import com.google.android.exoplayer2.ui.PlayerView;
  * Custom player class for Double-Tapping listening
  *
  */
-public final class DoubleTapPlayerView extends PlayerView {
+public class DoubleTapPlayerView extends PlayerView {
 
     public static final String TAG = ".DoubleTapPlayerView";
     public static boolean DEBUG = !BuildConfig.BUILD_TYPE.equals("release");
