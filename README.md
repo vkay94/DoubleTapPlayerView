@@ -64,7 +64,7 @@ into your XML layout, e.g. on top of `DoubleTapPlayerView` or inside ExoPlayer's
         android:layout_height="match_parent"
         android:visibility="gone"
         
-        app:yt_playerview="@+id/playerView" />
+        app:yt_playerView="@+id/playerView" />
 </FrameLayout>
 ```
 
