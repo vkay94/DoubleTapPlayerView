@@ -14,12 +14,12 @@ import com.google.android.exoplayer2.ui.PlayerView
 /**
  * Custom player class for Double-Tapping listening
  */
-class DoubleTapPlayerView @JvmOverloads constructor(
+open class DoubleTapPlayerView @JvmOverloads constructor(
     context: Context?, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : PlayerView(context!!, attrs, defStyleAttr) {
 
     private val gestureDetector: GestureDetectorCompat
-    private val gestureListener: DoubleTapGestureListener = DoubleTapGestureListener(this)
+    private val gestureListener: DoubleTapGestureListener
 
     private var controller: PlayerDoubleTapListener? = null
         get() = gestureListener.controls
@@ -31,6 +31,7 @@ class DoubleTapPlayerView @JvmOverloads constructor(
     private var controllerRef: Int = -1
 
     init {
+        gestureListener = DoubleTapGestureListener(this)
         gestureDetector = GestureDetectorCompat(context, gestureListener)
 
         // Check whether controller is set through XML
@@ -42,6 +43,10 @@ class DoubleTapPlayerView @JvmOverloads constructor(
         }
     }
 
+    /**
+     * If this field is set to `true` this view will handle double tapping, otherwise it will
+     * handle touches the same way as the original [PlayerView][com.google.android.exoplayer2.ui.PlayerView] does
+     */
     var isDoubleTapEnabled = true
 
     /**

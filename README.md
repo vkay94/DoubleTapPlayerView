@@ -4,9 +4,8 @@ DoubleTapPlayerView
 A simple library to include double tap behavior to ExoPlayer's PlayerView. 
 Created to handle fast forward/rewind behavior like YouTube.
 
-<p align="center">
-    <img src="github/youtube_preview.png" alt="youtube_preview" width="350"/>
-</p>
+![teamwork-flip](github/preview_gif.gif)
+
 
 # Sample app
 
@@ -74,10 +73,8 @@ Then, inside your `Activity` or `Fragment`, you can specify which preparations s
 before and after the animation, but at least, you have got to toggle the visibility of the overlay and reference the (Simple)ExoPlayer to it:
 
 ```kotlin
-youtube_overlay.apply {
-    // Uncomment this line if you haven't set yt_playerView in XML
-    // setPlayerView(playerView)
-    performListener = object : YouTubeOverlay.PerformListener {
+youtube_overlay
+    .performListener(object : YouTubeOverlay.PerformListener {
         override fun onAnimationStart() {
             // Do UI changes when circle scaling animation starts (e.g. hide controller views)
             youtube_overlay.visibility = View.VISIBLE
@@ -87,17 +84,19 @@ youtube_overlay.apply {
             // Do UI changes when circle scaling animation starts (e.g. show controller views)
             youtube_overlay.visibility = View.GONE
         }
-    }
-} 
+    })
+    // Uncomment this line if you haven't set yt_playerView in XML
+    // .playerView(playerView)
+
 // Uncomment this line if you haven't set dtpv_controller in XML 
 // playerView.controller(youtube_overlay)
 
 // Call this method whenever the player is released and recreated
-youtube_overlay.setPlayer(simpleExoPlayer)
+youtube_overlay.player(simpleExoPlayer)
 ```
 
 This way, you have more control about the appearance, for example you could apply a fading animation to it.
-For a full initialization look [here][MainActivity] and  [here][MainLayout].
+For a full initialization you can refer to the demo application's MainActivity and layout files.
 
 ---
 
@@ -163,5 +162,3 @@ This interface reacts to the events during rewinding/forwarding.
 [videolist]: https://gist.github.com/jsturgis/3b19447b304616f18657
 [jitpack]: https://jitpack.io/#vkay94/DoubleTapPlayerView
 [PlayerDoubleTapListener]: https://github.com/vkay94/DoubleTapPlayerView/blob/master/doubletapplayerview/src/main/java/com/github/vkay94/dtpv/PlayerDoubleTapListener.java
-[MainActivity]: https://github.com/vkay94/DoubleTapPlayerView/blob/master/app/src/main/java/com/github/vkay94/doubletapplayerviewexample/MainActivity.kt
-[MainLayout]: https://github.com/vkay94/DoubleTapPlayerView/blob/dev/app/src/main/java/com/github/vkay94/doubletapplayerviewexample/VideoActivity.kt
