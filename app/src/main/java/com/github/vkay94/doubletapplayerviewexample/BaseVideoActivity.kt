@@ -16,7 +16,6 @@ import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
-import kotlinx.android.synthetic.main.activity_video.*
 
 
 @SuppressLint("Registered")
@@ -27,19 +26,14 @@ open class BaseVideoActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        this.window.setFlags(
-            WindowManager.LayoutParams.FLAG_FULLSCREEN,
-            WindowManager.LayoutParams.FLAG_FULLSCREEN
-        )
         supportActionBar?.hide()
     }
 
     fun buildMediaSource(mUri: Uri) {
-        val bandwidthMeter = DefaultBandwidthMeter()
         val dataSourceFactory = DefaultDataSourceFactory(
             this@BaseVideoActivity,
             Util.getUserAgent(this@BaseVideoActivity, resources.getString(R.string.app_name)),
-            bandwidthMeter
+            DefaultBandwidthMeter.Builder(this@BaseVideoActivity).build()
         )
         val videoSource = ProgressiveMediaSource.Factory(dataSourceFactory, Mp4ExtractorFactory())
             .createMediaSource(mUri)
@@ -52,10 +46,10 @@ open class BaseVideoActivity : AppCompatActivity() {
         if (player == null) {
             val loadControl: LoadControl = DefaultLoadControl.Builder()
                 .setBufferDurationsMs(
-                    VideoPlayerConfig.MIN_BUFFER_DURATION,
-                    VideoPlayerConfig.MAX_BUFFER_DURATION,
-                    VideoPlayerConfig.MIN_PLAYBACK_START_BUFFER,
-                    VideoPlayerConfig.MIN_PLAYBACK_RESUME_BUFFER
+                    MIN_BUFFER_DURATION,
+                    MAX_BUFFER_DURATION,
+                    MIN_PLAYBACK_START_BUFFER,
+                    MIN_PLAYBACK_RESUME_BUFFER
                 )
                 .createDefaultLoadControl()
 
@@ -63,7 +57,7 @@ open class BaseVideoActivity : AppCompatActivity() {
                 .setLoadControl(loadControl)
                 .build()
 
-            playerView.player = player
+            videoPlayer?.player = player
         }
     }
 
@@ -109,7 +103,23 @@ open class BaseVideoActivity : AppCompatActivity() {
         }
     }
 
+    fun setFullscreen(fullscreen: Boolean) {
+        if (fullscreen) {
+            this.window.setFlags(
+                WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN
+            )
+        } else {
+            this.window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        }
+    }
+
     companion object {
+        const val MIN_BUFFER_DURATION = 15000
+        const val MAX_BUFFER_DURATION = 60000
+        const val MIN_PLAYBACK_START_BUFFER = 2500
+        const val MIN_PLAYBACK_RESUME_BUFFER = 5000
+
         fun <T: BaseVideoActivity> newIntent(context: Context, activity: Class<T>): Intent =
             Intent(context, activity)
     }

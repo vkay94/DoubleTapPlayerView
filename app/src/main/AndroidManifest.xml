@@ -13,8 +13,10 @@
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
         <activity
-            android:name=".VideoActivity"
-            android:screenOrientation="landscape">
+            android:name=".MainActivity"
+            android:configChanges="orientation|keyboard|screenSize"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
