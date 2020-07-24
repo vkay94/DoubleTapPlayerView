@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:padding="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical">
+
+        <com.github.vkay94.dtpv.youtube.views.SecondsView
+            android:id="@+id/seconds_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:minHeight="64dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <com.github.stephenvinouze.materialnumberpickercore.MaterialNumberPicker
+                android:id="@+id/textsize_picker"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/number_picker_height"
+                android:layout_weight="1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.33"
+                app:mnpEditable="false"
+                app:mnpSeparatorColor="@android:color/white"
+                app:mnpTextColor="@android:color/white"
+                app:mnpTextSize="14sp"
+                app:mnpWrapped="false" />
+
+            <com.github.stephenvinouze.materialnumberpickercore.MaterialNumberPicker
+                android:id="@+id/typeface_picker"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/number_picker_height"
+                android:layout_weight="1"
+                app:layout_constraintStart_toEndOf="@id/textsize_picker"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.333"
+                app:mnpEditable="false"
+                app:mnpSeparatorColor="@android:color/white"
+                app:mnpTextColor="@android:color/white"
+                app:mnpTextSize="14sp"
+                app:mnpWrapped="false" />
+
+            <com.github.stephenvinouze.materialnumberpickercore.MaterialNumberPicker
+                android:id="@+id/seconds_picker"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/number_picker_height"
+                android:layout_weight="1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.333"
+                app:mnpEditable="false"
+                app:mnpSeparatorColor="@android:color/white"
+                app:mnpTextColor="@android:color/white"
+                app:mnpTextSize="14sp"
+                app:mnpWrapped="false" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_marginTop="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cycle animation duration"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+
+            <TextView
+                android:padding="4dp"
+                android:id="@+id/tv_youtube_drawable_animation_duration"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                tools:text="40 ms" />
+
+            <androidx.appcompat.widget.AppCompatSeekBar
+                android:id="@+id/seekbar_youtube_drawable_animation_duration"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_youtube_drawable_animation_duration" />
+
+    </LinearLayout>
+</ScrollView>

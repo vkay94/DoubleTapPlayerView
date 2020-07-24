@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name" translatable="false">DTPV Demo</string>
+    <string name="tab_circle" translatable="false">Circle Shape</string>
+    <string name="tab_seconds_view" translatable="false">Seconds View</string>
 </resources>

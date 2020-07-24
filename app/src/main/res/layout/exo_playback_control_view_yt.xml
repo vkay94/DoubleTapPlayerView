@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dtp_overlay_dim">
-
+    android:background="#77000000">
 
     <LinearLayout
         android:id="@+id/exo_ll_controls"
@@ -33,90 +32,53 @@
 
     <LinearLayout
         android:id="@+id/exo_ll_timebar"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/fullscreen_button"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:paddingBottom="16dp"
-        app:layout_constraintBottom_toBottomOf="parent">
+        android:orientation="vertical"
+        android:paddingLeft="4dp"
+        android:paddingRight="0dp"
+        android:paddingBottom="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:paddingStart="4dp"
+        android:paddingEnd="0dp">
 
         <TextView
             android:id="@id/exo_position"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:includeFontPadding="false"
-            android:paddingStart="0dp"
-            android:paddingEnd="4dp"
+            android:paddingStart="8dp"
+            android:paddingLeft="0dp"
+            android:paddingEnd="0dp"
+            android:paddingRight="8dp"
             android:textColor="@android:color/white"
-            android:textSize="13sp"
-            tools:text="12:30" />
+            android:textSize="12sp"
+            tools:text="12:30 / 24:13" />
 
         <com.google.android.exoplayer2.ui.DefaultTimeBar
             android:id="@id/exo_progress"
-            android:layout_width="0dp"
-            android:layout_height="24dp"
-            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="16dp"
             app:bar_height="2dp"
             app:buffered_color="#ffffff"
             app:played_color="#ff1111"
             app:scrubber_color="#ff3333"
+            app:scrubber_dragged_size="2dp"
             app:unplayed_color="#ff888888" />
 
-        <TextView
-            android:id="@id/exo_duration"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:includeFontPadding="false"
-            android:paddingStart="4dp"
-            android:paddingEnd="0dp"
-            android:textColor="@android:color/white"
-            android:textSize="13sp"
-            tools:text="29:27" />
-
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toTopOf="parent"
+    <ImageButton
+        android:padding="4dp"
+        android:background="?selectableItemBackground"
+        android:src="@drawable/ic_baseline_fullscreen_24"
+        android:id="@+id/fullscreen_button"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <Button
-            android:layout_marginEnd="8dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/btn_colors"
-            android:text="Color pickers" />
-
-        <Button
-            android:layout_marginEnd="8dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/btn_various"
-            android:text="Durations and dimens" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <Button
-            android:layout_marginStart="8dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/btn_change_video"
-            android:text="Change video" />
-
-    </LinearLayout>
+        android:layout_height="wrap_content" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

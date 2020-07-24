@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/menu_main_action_github"
+        android:title="Github"
+        android:orderInCategory="101"
+        android:icon="@drawable/ic_github"
+        app:showAsAction="ifRoom"
+        />
+
+    <item android:id="@+id/menu_main_action_change_video"
+        android:title="Play next"
+        android:orderInCategory="100"
+        android:icon="@drawable/ic_baseline_video_library_24"
+        app:showAsAction="ifRoom"
+        />
+
+</menu>

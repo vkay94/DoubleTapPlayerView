@@ -1,0 +1,3 @@
+<resources>
+    <dimen name="number_picker_height">128dp</dimen>
+</resources>
