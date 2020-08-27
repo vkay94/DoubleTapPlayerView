@@ -29,9 +29,17 @@ allprojects {
 }
 ```
 
-Then, in your app's directory, you can include it the same way like other libraries:
+Then, in your app's directory, you can include it the same way like other libraries. Make sure that you set the comnpatibilty version to 1.8 inside `compileOptions`: 
 
 ```gradle
+android {
+  ...
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
+  }
+}
+
 dependencies {
   implementation 'com.github.vkay94:DoubleTapPlayerView:1.0.0'
 }
