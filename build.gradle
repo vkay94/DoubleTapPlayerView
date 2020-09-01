@@ -2,8 +2,8 @@
 
 buildscript {
     ext {
-        libMajor = 1
-        libMinor = 0
+        libMajor = 0
+        libMinor = 1
         libPatch = 0
 
         libVersionCode = libPatch + (libMinor * 100) + (libMajor * 10000)

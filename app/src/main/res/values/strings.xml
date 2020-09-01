@@ -1,5 +1,75 @@
 <resources>
-    <string name="app_name" translatable="false">DTPV Demo</string>
+    <string name="app_name" translatable="false">DT Ripple Demo</string>
     <string name="tab_circle" translatable="false">Circle Shape</string>
     <string name="tab_seconds_view" translatable="false">Seconds View</string>
+    <string name="large_text" translatable="false">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ac magna id sapien
+        placerat convallis. Pellentesque et sem ut quam varius rhoncus. Phasellus efficitur
+        commodo euismod. Fusce non eros nunc. Suspendisse auctor tortor mi, nec vulputate enim
+        finibus eget. Donec finibus metus eu turpis tincidunt cursus. Integer et arcu dui.
+        \n\n
+
+        Donecaliquam finibus odio, nec mattis justo vehicula id. Vestibulum elit sapien, tincidunt sit
+        amet ligula sit amet, auctor pulvinar nunc. Duis imperdiet non lorem sed feugiat.
+        \n\n
+
+        Donecinterdum, mi at vehicula mollis, magna justo porttitor neque, in maximus orci nunc nec
+        enim. Pellentesque consectetur nec nisl vel condimentum. Nullam mi purus, vulputate
+        aliquam pellentesque sed, sagittis vitae felis. Pellentesque habitant morbi tristique
+        senectus et netus et malesuada fames ac turpis egestas.
+        \n\n
+
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ac magna id sapien
+        placerat convallis. Pellentesque et sem ut quam varius rhoncus. Phasellus efficitur
+        commodo euismod. Fusce non eros nunc. Suspendisse auctor tortor mi, nec vulputate enim
+        finibus eget. Donec finibus metus eu turpis tincidunt cursus. Integer et arcu dui. Donec
+        aliquam finibus odio, nec mattis justo vehicula id. Vestibulum elit sapien, tincidunt sit
+        amet ligula sit amet, auctor pulvinar nunc. Duis imperdiet non lorem sed feugiat. Donec
+        interdum, mi at vehicula mollis, magna justo porttitor neque, in maximus orci nunc nec
+        enim. Pellentesque consectetur nec nisl vel condimentum. Nullam mi purus, vulputate
+        aliquam pellentesque sed, sagittis vitae felis. Pellentesque habitant morbi tristique
+        senectus et netus et malesuada fames ac turpis egestas.
+        \n\n
+
+        Donecaliquam finibus odio, nec mattis justo vehicula id. Vestibulum elit sapien, tincidunt sit
+        amet ligula sit amet, auctor pulvinar nunc. Duis imperdiet non lorem sed feugiat.
+        \n\n
+
+        Donecinterdum, mi at vehicula mollis, magna justo porttitor neque, in maximus orci nunc nec
+        enim. Pellentesque consectetur nec nisl vel condimentum. Nullam mi purus, vulputate
+        aliquam pellentesque sed, sagittis vitae felis. Pellentesque habitant morbi tristique
+        senectus et netus et malesuada fames ac turpis egestas.
+        \n\n
+
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ac magna id sapien
+        placerat convallis. Pellentesque et sem ut quam varius rhoncus. Phasellus efficitur
+        commodo euismod. Fusce non eros nunc. Suspendisse auctor tortor mi, nec vulputate enim
+        finibus eget. Donec finibus metus eu turpis tincidunt cursus. Integer et arcu dui.
+        \n\n
+
+        Donecaliquam finibus odio, nec mattis justo vehicula id. Vestibulum elit sapien, tincidunt sit
+        amet ligula sit amet, auctor pulvinar nunc. Duis imperdiet non lorem sed feugiat.
+        \n\n
+
+        Donecinterdum, mi at vehicula mollis, magna justo porttitor neque, in maximus orci nunc nec
+        enim. Pellentesque consectetur nec nisl vel condimentum. Nullam mi purus, vulputate
+        aliquam pellentesque sed, sagittis vitae felis. Pellentesque habitant morbi tristique
+        senectus et netus et malesuada fames ac turpis egestas.
+        \n\n
+
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ac magna id sapien
+        placerat convallis. Pellentesque et sem ut quam varius rhoncus. Phasellus efficitur
+        commodo euismod. Fusce non eros nunc. Suspendisse auctor tortor mi, nec vulputate enim
+        finibus eget. Donec finibus metus eu turpis tincidunt cursus. Integer et arcu dui.
+        \n\n
+
+        Donecaliquam finibus odio, nec mattis justo vehicula id. Vestibulum elit sapien, tincidunt sit
+        amet ligula sit amet, auctor pulvinar nunc. Duis imperdiet non lorem sed feugiat.
+        \n\n
+
+        Donecinterdum, mi at vehicula mollis, magna justo porttitor neque, in maximus orci nunc nec
+        enim. Pellentesque consectetur nec nisl vel condimentum. Nullam mi purus, vulputate
+        aliquam pellentesque sed, sagittis vitae felis. Pellentesque habitant morbi tristique
+        senectus et netus et malesuada fames ac turpis egestas.
+    </string>
 </resources>

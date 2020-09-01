@@ -8,7 +8,7 @@ android {
     compileSdkVersion 29
     buildToolsVersion '29.0.3'
     defaultConfig {
-        applicationId "com.github.vkay94.doubletapplayerviewexample"
+        applicationId "com.github.vkay94.doubletaprippleviewexample"
         minSdkVersion 16
         targetSdkVersion 29
         versionCode libVersionCode

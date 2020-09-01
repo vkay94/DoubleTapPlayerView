@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="DoubleTapRippleView">
+        <attr name="dtr_animationDuration" format="integer" />
+        <attr name="dtr_arcSize" format="dimension" />
+        <attr name="dtr_tapCircleColor" format="color" />
+        <attr name="dtr_backgroundCircleColor" format="color" />
+    </declare-styleable>
+
+</resources>
