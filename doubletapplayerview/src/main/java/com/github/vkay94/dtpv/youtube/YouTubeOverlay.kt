@@ -1,6 +1,7 @@
 package com.github.vkay94.dtpv.youtube
 
 import android.content.Context
+import android.media.session.PlaybackState
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +18,7 @@ import com.github.vkay94.dtpv.SeekListener
 import com.github.vkay94.dtpv.youtube.views.CircleClipTapView
 import com.github.vkay94.dtpv.youtube.views.SecondsView
 import com.google.android.exoplayer2.Player
+import com.google.android.exoplayer2.ui.PlayerView
 
 
 /**
@@ -314,24 +316,25 @@ class YouTubeOverlay(context: Context, private val attrs: AttributeSet?) :
     val secondsTextView: TextView
         get() = secondsView.textView
 
+    override fun onDoubleTapStarted(posX: Float, posY: Float) {
+        if (player == null || playerView == null)
+            return
+
+        if (performListener?.shouldForward(player!!, playerView!!, posX) == null)
+            return
+    }
+
     override fun onDoubleTapProgressUp(posX: Float, posY: Float) {
 
         // Check first whether forwarding/rewinding is "valid"
-        if (player?.currentPosition == null || playerView?.width == null) return
-        player?.currentPosition?.let { current ->
-            // Rewind and start of the video (+ 0.5 sec tolerance)
-            if (posX < playerView?.width!! * 0.35 && current <= 500)
-                return
+        if (player == null || playerView == null) return
 
-            // Forward and end of the video (- 0.5 sec tolerance)
-            if (posX > playerView?.width!! * 0.65 && current >= player?.duration!!.minus(500))
-                return
-        }
+        val shouldForward = performListener?.shouldForward(player!!, playerView!!, posX)
 
         // YouTube behavior: show overlay on MOTION_UP
         // But check whether the first double tap is in invalid area
         if (this.visibility != View.VISIBLE) {
-            if (posX < playerView?.width!! * 0.35 || posX > playerView?.width!! * 0.65) {
+            if (shouldForward != null) {
                 performListener?.onAnimationStart()
                 secondsView.visibility = View.VISIBLE
                 secondsView.start()
@@ -339,8 +342,8 @@ class YouTubeOverlay(context: Context, private val attrs: AttributeSet?) :
                 return
         }
 
-        when {
-            posX < playerView?.width!! * 0.35 -> {
+        when (shouldForward) {
+            false -> {
 
                 // First time tap or switched
                 if (secondsView.isForward) {
@@ -358,7 +361,7 @@ class YouTubeOverlay(context: Context, private val attrs: AttributeSet?) :
                 }
                 rewinding()
             }
-            posX > playerView?.width!! * 0.65 -> {
+            true -> {
 
                 // First time tap or switched
                 if (!secondsView.isForward) {
@@ -459,5 +462,49 @@ class YouTubeOverlay(context: Context, private val attrs: AttributeSet?) :
          * Visibility of the overlay should be set to GONE within this interface method.
          */
         fun onAnimationEnd()
+
+        /**
+         * Determines whether the player should forward, rewind or skip this tap by doing
+         * nothing / ignoring. Is called for each tap.
+         *
+         * By overriding this method you can check for self-defined conditions whether showing the
+         * overlay and rewinding/forwarding (e.g. if the media source valid) or skip it.
+         *
+         * In the following you see the default conditions for each action (if there is no media
+         * to play ([PlaybackState.STATE_NONE]), an error occurred ([PlaybackState.STATE_ERROR])
+         * or the media is stopped ([PlaybackState.STATE_STOPPED]) the tap will be ignored in any
+         * case):
+         *
+         *
+         *      | Action  | Current position          | Screen width portion |
+         *      |---------|---------------------------|----------------------|
+         *      | rewind  | greater than 500 ms       | 0% to 35%            |
+         *      | forward | less than total duration  | 65% to 100%          |
+         *      | ignore  |       ------------        | between 35% and 65%  |
+         *
+         * @param player Current [Player]
+         * @param playerView [PlayerView] which accepts the taps
+         * @param posX Position of the tap on the x-axis
+         *
+         * @return `true` to forward, `false` to rewind or `null` to ignore.
+         */
+        fun shouldForward(player: Player, playerView: DoubleTapPlayerView, posX: Float): Boolean? {
+
+            if (player.playbackState == PlaybackState.STATE_ERROR ||
+                player.playbackState == PlaybackState.STATE_NONE ||
+                player.playbackState == PlaybackState.STATE_STOPPED) {
+
+                playerView.cancelInDoubleTapMode()
+                return null
+            }
+
+            if (player.currentPosition > 500 && posX < playerView.width * 0.35)
+                return false
+
+            if (player.currentPosition < player.duration && posX > playerView.width * 0.65)
+                return true
+
+            return null
+        }
     }
 }
