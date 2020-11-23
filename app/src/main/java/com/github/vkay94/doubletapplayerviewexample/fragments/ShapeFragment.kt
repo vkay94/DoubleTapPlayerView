@@ -10,13 +10,15 @@ import android.widget.TextView
 import androidx.appcompat.widget.AppCompatSeekBar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.github.vkay94.doubletapplayerviewexample.R
-import kotlinx.android.synthetic.main.fragment_shape.*
+import com.github.vkay94.doubletapplayerviewexample.databinding.FragmentShapeBinding
 
 /**
  * A placeholder fragment containing a simple view.
  */
 class ShapeFragment : Fragment() {
+
+    private var _binding: FragmentShapeBinding? = null
+    private val binding get() = _binding!!
 
     private lateinit var viewModel: PageViewModel
 
@@ -31,8 +33,9 @@ class ShapeFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_shape, container, false)
+    ): View {
+        _binding = FragmentShapeBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -42,8 +45,8 @@ class ShapeFragment : Fragment() {
             viewModel = ViewModelProvider(fa).get(PageViewModel::class.java)
 
             initializeDurationSeekBar(
-                seekbar_youtube_animation_duration,
-                tv_youtube_animation_duration,
+                binding.seekbarYoutubeAnimationDuration,
+                binding.tvYoutubeAnimationDuration,
                 maxAnimationDuration,
                 minAnimationDuration,
                 viewModel.circleExpandDuration.value?.toInt() ?: 800
@@ -52,8 +55,8 @@ class ShapeFragment : Fragment() {
             }
 
             initializeDimensSeekBar(
-                seekbar_arc_size,
-                tv_arc_size,
+                binding.seekbarArcSize,
+                binding.tvArcSize,
                 maxArcSize,
                 minArcSize,
                 viewModel.arcSize.value?.toInt() ?: 40
@@ -62,8 +65,8 @@ class ShapeFragment : Fragment() {
             }
 
             initializeAlphaSeekbar(
-                seekbar_tap_circle_alpha,
-                tv_tap_circle_alpha,
+                binding.seekbarTapCircleAlpha,
+                binding.tvTapCircleAlpha,
                 100, 0,
                 (Color.alpha(viewModel.tapCircleColor.value ?: 10) * (100 / 255f)).toInt()
             ) {
@@ -71,8 +74,8 @@ class ShapeFragment : Fragment() {
             }
 
             initializeAlphaSeekbar(
-                seekbar_background_circle_alpha,
-                tv_background_circle_alpha,
+                binding.seekbarBackgroundCircleAlpha,
+                binding.tvBackgroundCircleAlpha,
                 100, 0,
                 (Color.alpha(viewModel.circleBackgroundColor.value ?: 15) * (100 / 255f)).toInt()
             ) {

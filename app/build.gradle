@@ -1,8 +1,5 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
-apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 29
@@ -14,6 +11,7 @@ android {
         versionCode libVersionCode
         versionName "$libMajor.$libMinor.$libPatch"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
     signingConfigs {
         release {
@@ -43,6 +41,10 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    buildFeatures {
+        viewBinding true
+    }
 }
 
 dependencies {
@@ -59,6 +61,7 @@ dependencies {
     implementation "com.github.StephenVinouze:MaterialNumberPicker:1.1.0"
     implementation project(path: ':doubletapplayerview')
 
-    implementation 'com.google.android.material:material:1.1.0'
+    implementation 'com.google.android.material:material:1.2.1'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    implementation 'androidx.multidex:multidex:2.0.1'
 }

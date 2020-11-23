@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:scrollbars="none">
+    android:scrollbars="none"
+    tools:ignore="HardcodedText">
 
     <LinearLayout
-        android:padding="16dp"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="16dp">
 
         <com.github.vkay94.dtpv.youtube.views.SecondsView
             android:id="@+id/seconds_view"
@@ -70,27 +71,27 @@
         </LinearLayout>
 
         <TextView
-            android:layout_marginTop="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:text="Cycle animation duration"
             android:textColor="@android:color/white"
             android:textSize="16sp" />
 
-            <TextView
-                android:padding="4dp"
-                android:id="@+id/tv_youtube_drawable_animation_duration"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                tools:text="40 ms" />
+        <TextView
+            android:id="@+id/tv_youtube_drawable_animation_duration"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:padding="4dp"
+            tools:text="40 ms" />
 
-            <androidx.appcompat.widget.AppCompatSeekBar
-                android:id="@+id/seekbar_youtube_drawable_animation_duration"
-                android:layout_width="match_parent"
-                android:layout_height="32dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_youtube_drawable_animation_duration" />
+        <androidx.appcompat.widget.AppCompatSeekBar
+            android:id="@+id/seekbar_youtube_drawable_animation_duration"
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_youtube_drawable_animation_duration" />
 
     </LinearLayout>
 </ScrollView>

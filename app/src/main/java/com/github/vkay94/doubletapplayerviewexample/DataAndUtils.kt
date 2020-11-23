@@ -9,9 +9,9 @@ import android.util.TypedValue
 object DataAndUtils {
 
     /**
-     * This is a selected list of sample videos for demonstration
+     * This is a selected list of sample videos for demonstration.
      *
-     * Source: [Github Gist](https://gist.github.com/jsturgis/3b19447b304616f18657).
+     * Source: [Github Gist](https://gist.github.com/jsturgis/3b19447b304616f18657)
      */
     val videoList = listOf(
         "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
