@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:scrollbars="none">
+    android:scrollbars="none"
+    tools:ignore="HardcodedText">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -32,17 +33,10 @@
             android:layout_width="match_parent"
             android:layout_height="32dp" />
 
-<!--        <View-->
-<!--            android:id="@+id/seperator2"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="1dp"-->
-<!--            android:layout_marginVertical="12dp"-->
-<!--            android:background="@color/divider_background" />-->
-
         <TextView
-            android:layout_marginTop="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:text="Arc size"
             android:textColor="@android:color/white"
             android:textSize="16sp" />
@@ -62,17 +56,10 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_arc_size" />
 
-<!--        <View-->
-<!--            android:id="@+id/seperator3"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="1dp"-->
-<!--            android:layout_marginVertical="12dp"-->
-<!--            android:background="@color/divider_background" />-->
-
         <TextView
-            android:layout_marginTop="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:paddingBottom="16dp"
             android:text="Tap circle alpha"
             android:textColor="@android:color/white"
@@ -93,17 +80,10 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_tap_circle_alpha" />
 
-<!--        <View-->
-<!--            android:id="@+id/seperator4"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="1dp"-->
-<!--            android:layout_marginVertical="12dp"-->
-<!--            android:background="@color/divider_background" />-->
-
         <TextView
-            android:layout_marginTop="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:text="Background circle alpha"
             android:textColor="@android:color/white"
             android:textSize="16sp" />

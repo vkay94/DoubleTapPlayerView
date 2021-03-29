@@ -29,7 +29,8 @@ allprojects {
 }
 ```
 
-Then, in your app's directory, you can include it the same way like other libraries. Make sure that you set the comnpatibilty version to 1.8 inside `compileOptions`: 
+Then, in your app's directory, you can include it the same way like other libraries. 
+Make sure that you set the comnpatibilty version to 1.8 inside `compileOptions`: 
 
 ```gradle
 android {
@@ -41,11 +42,12 @@ android {
 }
 
 dependencies {
-  implementation 'com.github.vkay94:DoubleTapPlayerView:1.0.0'
+  implementation 'com.github.vkay94:DoubleTapPlayerView:1.0.1'
 }
 ```
 
-The minimum API level supported by this library is API 16 as ExoPlayer does, but I can't verify versions below API level 21 (Lollipop) myself. So feedback is welcomed.
+The minimum API level supported by this library is API 16 as ExoPlayer does, but I can't 
+verify versions below API level 21 (Lollipop) myself. So feedback is welcomed.
 
 
 # Getting started
@@ -78,7 +80,8 @@ into your XML layout, e.g. on top of `DoubleTapPlayerView` or inside ExoPlayer's
 ```
 
 Then, inside your `Activity` or `Fragment`, you can specify which preparations should be done
-before and after the animation, but at least, you have got to toggle the visibility of the overlay and reference the (Simple)ExoPlayer to it:
+before and after the animation, but at least, you have got to toggle the visibility of the 
+overlay and reference the (Simple)ExoPlayer to it:
 
 ```kotlin
 youtube_overlay
@@ -103,8 +106,9 @@ youtube_overlay
 youtube_overlay.player(simpleExoPlayer)
 ```
 
-This way, you have more control about the appearance, for example you could apply a fading animation to it.
-For a full initialization you can refer to the demo application's MainActivity and layout files.
+This way, you have more control about the appearance, for example you could apply a fading 
+animation to it. For a full initialization you can refer to the demo application's MainActivity 
+and layout files.
 
 ---
 
@@ -116,7 +120,8 @@ The following sections provide detailed documentation for the components of the 
 
 `DoubleTapPlayerView` is the core of this library. It recognizes specific gestures 
 which provides more control for the double tapping gesture.
-An overview about the added methods can be found in the [PlayerDoubleTapListener][PlayerDoubleTapListener] interface.
+An overview about the added methods can be found in the [PlayerDoubleTapListener][PlayerDoubleTapListener] 
+interface.
 
 You can adjust how long the double tap mode remains after the last action,
 the default value is 650 milliseconds.

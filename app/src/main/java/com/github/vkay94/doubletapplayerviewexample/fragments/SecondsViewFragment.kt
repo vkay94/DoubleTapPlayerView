@@ -13,42 +13,46 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.github.vkay94.doubletapplayerviewexample.R
 import com.github.vkay94.doubletapplayerviewexample.TextViewStyler
-import kotlinx.android.synthetic.main.fragment_seconds_view.*
+import com.github.vkay94.doubletapplayerviewexample.databinding.FragmentSecondsViewBinding
 
 
 class SecondsViewFragment : Fragment() {
+
+    private var _binding: FragmentSecondsViewBinding? = null
+    private val binding get() = _binding!!
 
     private lateinit var viewModel: PageViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_seconds_view, container, false)
+    ): View {
+        _binding = FragmentSecondsViewBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        seconds_view.seconds = 10
-        seconds_view.textView.setTextColor(Color.WHITE)
+        binding.secondsView.seconds = 10
+        binding.secondsView.textView.setTextColor(Color.WHITE)
 
-        seconds_view.start()
+        binding.secondsView.start()
 
         activity?.let { fa ->
             viewModel = ViewModelProvider(fa).get(PageViewModel::class.java)
 
-            textsize_picker.apply {
+            binding.textsizePicker.apply {
                 minValue = 10
                 maxValue = 20
                 value = 13
                 setFormatter { "$it sp" }
                 setOnValueChangedListener { picker, _, _ ->
-                    seconds_view.textView.textSize = picker.value.toFloat()
+                    binding.secondsView.textView.textSize = picker.value.toFloat()
                     viewModel.fontSize.value = picker.value.toFloat()
                 }
             }
 
-            typeface_picker.apply {
+            binding.typefacePicker.apply {
                 minValue = 0
                 maxValue = 3
                 value = 0
@@ -71,12 +75,12 @@ class SecondsViewFragment : Fragment() {
                     }
 
                     TextViewStyler()
-                        .textStyle(tf).applyTo(seconds_view.textView)
+                        .textStyle(tf).applyTo(binding.secondsView.textView)
                     viewModel.typeFace.value = tf
                 }
             }
 
-            seconds_picker.apply {
+            binding.secondsPicker.apply {
                 minValue = 0
                 maxValue = 3
                 value = 0
@@ -99,7 +103,7 @@ class SecondsViewFragment : Fragment() {
                     }
 
                     if (res > 0) {
-                        seconds_view.icon = res
+                        binding.secondsView.icon = res
                         viewModel.secondsIcon.value = res
                     }
                 }
@@ -107,13 +111,13 @@ class SecondsViewFragment : Fragment() {
         }
 
         initTriangleSpeedSeekbar(
-            seekbar_youtube_drawable_animation_duration,
-            tv_youtube_drawable_animation_duration,
+            binding.seekbarYoutubeDrawableAnimationDuration,
+            binding.tvYoutubeDrawableAnimationDuration,
             3000,
             500,
-            seconds_view.cycleDuration.toInt() ?: 800
+            binding.secondsView.cycleDuration.toInt()
         ) {
-            seconds_view.cycleDuration = it.toLong()
+            binding.secondsView.cycleDuration = it.toLong()
             viewModel.iconSpeed.value = it.toLong()
         }
     }
@@ -143,6 +147,11 @@ class SecondsViewFragment : Fragment() {
 
             })
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     companion object {
