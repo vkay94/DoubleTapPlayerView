@@ -16,5 +16,5 @@ ext.build = [
 
     libMajor    : 1,
     libMinor    : 0,
-    libPatch    : 0,
+    libPatch    : 1,
 ]
