@@ -1,15 +1,17 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
+apply from: '../dependencies.gradle'
+
 android {
-    compileSdkVersion 29
-    buildToolsVersion '29.0.3'
+    compileSdkVersion build.compileSdk
+    buildToolsVersion build.buildTools
 
     defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion 29
-        versionCode libVersionCode
-        versionName "$libMajor.$libMinor.$libPatch"
+        minSdkVersion build.minSdk
+        targetSdkVersion build.targetSdk
+        versionCode build.libMajor + (build.libMinor * 100) + (build.libPatch * 10000)
+        versionName "$build.libMajor.$build.libMinor.$build.libPatch"
 
         vectorDrawables.useSupportLibrary = true
 
@@ -36,11 +38,11 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation "androidx.appcompat:appcompat:$appcompat_version"
-    implementation "androidx.core:core-ktx:$core_ktx_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$versions.kotlin"
+    implementation "androidx.appcompat:appcompat:$versions.appcompat"
+    implementation "androidx.core:core-ktx:$versions.core_ktx"
 
-    implementation "com.google.android.exoplayer:exoplayer-core:$exoplayer_version"
-    implementation "com.google.android.exoplayer:exoplayer-ui:$exoplayer_version"
-    implementation "androidx.constraintlayout:constraintlayout:$constraintlayout_version"
+    implementation "com.google.android.exoplayer:exoplayer-core:$versions.exoplayer"
+    implementation "com.google.android.exoplayer:exoplayer-ui:$versions.exoplayer"
+    implementation "androidx.constraintlayout:constraintlayout:$versions.constraintlayout"
 }
