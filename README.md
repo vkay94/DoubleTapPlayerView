@@ -42,7 +42,7 @@ android {
 }
 
 dependencies {
-  implementation 'com.github.vkay94:DoubleTapPlayerView:1.0.1'
+  implementation 'com.github.vkay94:DoubleTapPlayerView:1.0.2'
 }
 ```
 
