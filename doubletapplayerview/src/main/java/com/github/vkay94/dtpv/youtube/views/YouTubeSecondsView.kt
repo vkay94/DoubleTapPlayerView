@@ -114,78 +114,88 @@ class SecondsView(context: Context, attrs: AttributeSet?) :
         icon3.alpha = 0f
     }
 
-    private val firstAnimator: ValueAnimator = CustomValueAnimator(
-        {
-            icon1.alpha = 0f
-            icon2.alpha = 0f
-            icon3.alpha = 0f
-        }, {
-            icon1.alpha = it
-        }, {
-            secondAnimator.start()
+    private val firstAnimator: ValueAnimator by lazy {
+        ValueAnimator.ofFloat(0f, 1f).setDuration(cycleDuration / 5).apply {
+            doOnStart {
+                icon1.alpha = 0f
+                icon2.alpha = 0f
+                icon3.alpha = 0f
+            }
+            addUpdateListener {
+                icon1.alpha = (it.animatedValue as Float)
+            }
+
+            doOnEnd {
+                secondAnimator.start()
+            }
         }
-    )
+    }
 
-    private val secondAnimator: ValueAnimator = CustomValueAnimator(
-        {
-            icon1.alpha = 1f
-            icon2.alpha = 0f
-            icon3.alpha = 0f
-        }, {
-            icon2.alpha = it
-        }, {
-            thirdAnimator.start()
+    private val secondAnimator: ValueAnimator by lazy {
+        ValueAnimator.ofFloat(0f, 1f).setDuration(cycleDuration / 5).apply {
+            doOnStart {
+                icon1.alpha = 1f
+                icon2.alpha = 0f
+                icon3.alpha = 0f
+            }
+            addUpdateListener {
+                icon2.alpha = (it.animatedValue as Float)
+            }
+            doOnEnd {
+                thirdAnimator.start()
+            }
         }
-    )
+    }
 
-    private val thirdAnimator: ValueAnimator = CustomValueAnimator(
-        {
-            icon1.alpha = 1f
-            icon2.alpha = 1f
-            icon3.alpha = 0f
-        }, {
-            icon1.alpha = 1f - icon3.alpha // or 1f - it (t3.alpha => all three stay a little longer together)
-            icon3.alpha = it
-        }, {
-            fourthAnimator.start()
+    private val thirdAnimator: ValueAnimator by lazy {
+        ValueAnimator.ofFloat(0f, 1f).setDuration(cycleDuration / 5).apply {
+            doOnStart {
+                icon1.alpha = 1f
+                icon2.alpha = 1f
+                icon3.alpha = 0f
+            }
+            addUpdateListener {
+                icon1.alpha =
+                    1f - icon3.alpha // or 1f - it (t3.alpha => all three stay a little longer together)
+                icon3.alpha = (it.animatedValue as Float)
+            }
+            doOnEnd {
+                fourthAnimator.start()
+            }
         }
-    )
 
-    private val fourthAnimator: ValueAnimator = CustomValueAnimator(
-        {
-            icon1.alpha = 0f
-            icon2.alpha = 1f
-            icon3.alpha = 1f
-        }, {
-            icon2.alpha = 1f - it
-        }, {
-            fifthAnimator.start()
+    }
+
+    private val fourthAnimator: ValueAnimator by lazy {
+        ValueAnimator.ofFloat(0f, 1f).setDuration(cycleDuration / 5).apply {
+            doOnStart {
+                icon1.alpha = 0f
+                icon2.alpha = 1f
+                icon3.alpha = 1f
+            }
+            addUpdateListener {
+                icon2.alpha = 1f - (it.animatedValue as Float)
+            }
+            doOnEnd {
+                fifthAnimator.start()
+            }
+
         }
-    )
+    }
 
-    private val fifthAnimator: ValueAnimator = CustomValueAnimator(
-        {
-            icon1.alpha = 0f
-            icon2.alpha = 0f
-            icon3.alpha = 1f
-        }, {
-            icon3.alpha = 1f - it
-        }, {
-            firstAnimator.start()
-        }
-    )
-
-    private inner class CustomValueAnimator(
-        start: () -> Unit, update: (value: Float) -> Unit, end: () -> Unit
-    ): ValueAnimator() {
-
-        init {
-            duration = cycleDuration / 5
-            setFloatValues(0f, 1f)
-
-            addUpdateListener { update(it.animatedValue as Float) }
-            doOnStart { start() }
-            doOnEnd { end() }
+    private val fifthAnimator: ValueAnimator by lazy {
+        ValueAnimator.ofFloat(0f, 1f).setDuration(cycleDuration / 5).apply {
+            doOnStart {
+                icon1.alpha = 0f
+                icon2.alpha = 0f
+                icon3.alpha = 1f
+            }
+            addUpdateListener {
+                icon3.alpha = 1f - (it.animatedValue as Float)
+            }
+            doOnEnd {
+                firstAnimator.start()
+            }
         }
     }
 }
