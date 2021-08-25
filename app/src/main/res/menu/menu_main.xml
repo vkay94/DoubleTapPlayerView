@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item android:id="@+id/menu_main_action_github"
-        android:title="Github"
+        android:title="GitHub"
         android:orderInCategory="101"
         android:icon="@drawable/ic_github"
         app:showAsAction="ifRoom"

@@ -1,16 +1,14 @@
-DoubleTapPlayerView
-=====
+# DoubleTapPlayerView
 
 A simple library to include double tap behavior to ExoPlayer's PlayerView. 
 Created to handle fast forward/rewind behavior like YouTube.
 
 ![teamwork-flip](github/preview_gif.gif)
 
-
 # Sample app
 
 If you would like to test the YouTube overlay, then you can either download the demo app,
-which can be found under Assets of the release or build it yourself from code. 
+which can be found under Assets of the release or build it yourself from code.
 It provides all main modifications available.
 
 The sample videos own by *Blender Foundation* and a full list can be found [here][videolist].
@@ -30,7 +28,7 @@ allprojects {
 ```
 
 Then, in your app's directory, you can include it the same way like other libraries. 
-Make sure that you set the comnpatibilty version to 1.8 inside `compileOptions`: 
+Make sure that you set the comnpatibilty version to 1.8 inside `compileOptions`:
 
 ```gradle
 android {
@@ -42,18 +40,17 @@ android {
 }
 
 dependencies {
-  implementation 'com.github.vkay94:DoubleTapPlayerView:1.0.2'
+  implementation 'com.github.vkay94:DoubleTapPlayerView:1.0.3'
 }
 ```
 
 The minimum API level supported by this library is API 16 as ExoPlayer does, but I can't 
 verify versions below API level 21 (Lollipop) myself. So feedback is welcomed.
 
-
 # Getting started
 
 In order to start using the YouTube overlay, the easiest way is to include it directly 
-into your XML layout, e.g. on top of `DoubleTapPlayerView` or inside ExoPlayer's controller: 
+into your XML layout, e.g. on top of `DoubleTapPlayerView` or inside ExoPlayer's controller:
 
 ```xml
 <FrameLayout
@@ -155,22 +152,30 @@ I'd recommend the sample app to try out the different values for them.
 
 This interface listens to the *lifecycle* of the overlay.
 
-**onAnimationStart()** *(obligatory)*
+```kotlin
+// Obligatory: Called when the overlay is not visible and the first valid double tap event occurred.
+// Visibility of the overlay should be set to VISIBLE within this interface method.
+fun onAnimationStart()
 
-Called when the overlay is not visible and the first valid double tap event occurred.
-Visibility of the overlay should be set to VISIBLE within this interface method.
+// Obligatory: Called when the circle animation is finished.
+// Visibility of the overlay should be set to GONE or INVISIBLE within this interface method.
+fun onAnimationEnd()
 
-**onAnimationEnd()** *(obligatory)*
-
-Called when the circle animation is finished.
-Visibility of the overlay should be set to GONE or INVISIBLE within this interface method.
+// Optional: Determines whether the player should forward (true), rewind (false) or ignore (null) taps.
+fun shouldForward(player: Player, playerView: DoubleTapPlayerView, posX: Float): Boolean?
+```
 
 ### SeekListener
 
-This interface reacts to the events during rewinding/forwarding. 
+This interface reacts to the events during rewinding/forwarding.
 
-`onVideoStartReached()` is called when the start of the video is reached and
-`onVideoEndReached()` is called when the end of the video is reached.
+```kotlin
+// Called when the start of the video is reached
+fun onVideoStartReached()
+
+// Called when the end of the video is reached
+fun onVideoEndReached()
+```
 
 [videolist]: https://gist.github.com/jsturgis/3b19447b304616f18657
 [jitpack]: https://jitpack.io/#vkay94/DoubleTapPlayerView
