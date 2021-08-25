@@ -3,6 +3,7 @@ package com.github.vkay94.dtpv
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Handler
+import android.os.Looper
 import android.util.AttributeSet
 import android.util.Log
 import android.view.GestureDetector
@@ -19,7 +20,7 @@ open class DoubleTapPlayerView @JvmOverloads constructor(
 ) : PlayerView(context!!, attrs, defStyleAttr) {
 
     private val gestureDetector: GestureDetectorCompat
-    private val gestureListener: DoubleTapGestureListener
+    private val gestureListener: DoubleTapGestureListener = DoubleTapGestureListener(rootView)
 
     private var controller: PlayerDoubleTapListener? = null
         get() = gestureListener.controls
@@ -31,7 +32,6 @@ open class DoubleTapPlayerView @JvmOverloads constructor(
     private var controllerRef: Int = -1
 
     init {
-        gestureListener = DoubleTapGestureListener(this)
         gestureDetector = GestureDetectorCompat(context, gestureListener)
 
         // Check whether controller is set through XML
@@ -129,7 +129,7 @@ open class DoubleTapPlayerView @JvmOverloads constructor(
      */
     private class DoubleTapGestureListener(private val rootView: View) : GestureDetector.SimpleOnGestureListener() {
 
-        private val mHandler = Handler()
+        private val mHandler = Handler(Looper.getMainLooper())
         private val mRunnable = Runnable {
             if (DEBUG) Log.d(TAG, "Runnable called")
             isDoubleTapping = false

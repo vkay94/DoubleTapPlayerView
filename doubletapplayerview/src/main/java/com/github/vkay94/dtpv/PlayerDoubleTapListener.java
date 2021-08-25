@@ -13,7 +13,7 @@ public interface PlayerDoubleTapListener {
     /**
      * Called for each ongoing tap (also single tap) (MotionEvent#ACTION_DOWN)
      * when double tap started and still in double tap mode defined
-     * by {@link DoubleTapPlayerView#doubleTapDelay}
+     * by {@link DoubleTapPlayerView#getDoubleTapDelay()}
      *
      * @param posX x tap position on the root view
      * @param posY y tap position on the root view
@@ -23,7 +23,7 @@ public interface PlayerDoubleTapListener {
     /**
      * Called for each ongoing tap (also single tap) (MotionEvent#ACTION_UP}
      * when double tap started and still in double tap mode defined
-     * by {@link DoubleTapPlayerView#doubleTapDelay}
+     * by {@link DoubleTapPlayerView#getDoubleTapDelay()}
      *
      * @param posX x tap position on the root view
      * @param posY y tap position on the root view
@@ -31,7 +31,7 @@ public interface PlayerDoubleTapListener {
     default void onDoubleTapProgressUp(float posX, float posY) { }
 
     /**
-     * Called when {@link DoubleTapPlayerView#doubleTapDelay} is over
+     * Called when {@link DoubleTapPlayerView#getDoubleTapDelay()} is over
      */
     default void onDoubleTapFinished() { }
 }
