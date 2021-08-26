@@ -1,5 +1,8 @@
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'maven-publish'
+}
 
 apply from: '../dependencies.gradle'
 
@@ -10,8 +13,6 @@ android {
     defaultConfig {
         minSdkVersion build.minSdk
         targetSdkVersion build.targetSdk
-        versionCode build.libMajor + (build.libMinor * 100) + (build.libPatch * 10000)
-        versionName "$build.libMajor.$build.libMinor.$build.libPatch"
 
         vectorDrawables.useSupportLibrary = true
 
@@ -45,4 +46,22 @@ dependencies {
     implementation "com.google.android.exoplayer:exoplayer-core:$versions.exoplayer"
     implementation "com.google.android.exoplayer:exoplayer-ui:$versions.exoplayer"
     implementation "androidx.constraintlayout:constraintlayout:$versions.constraintlayout"
+}
+
+// https://ayoubbenkhemis.medium.com/publish-android-library-with-jitpack-be00a29a8174
+afterEvaluate {
+    publishing {
+        publications {
+            // Creates a Maven publication called "release".
+            release(MavenPublication) {
+                // Applies the component for the release build variant.
+                from components.release
+
+                // You can then customize attributes of the publication as shown below.
+                groupId = 'com.github.vkay94.dtpv'
+                artifactId = 'doubletapplayerview'
+                version = build.libMajor + (build.libMinor * 100) + (build.libPatch * 10000)
+            }
+        }
+    }
 }
