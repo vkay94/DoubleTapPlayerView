@@ -89,3 +89,4 @@ lint/tmp/
 
 # Signing
 keystore.properties
+.idea/
