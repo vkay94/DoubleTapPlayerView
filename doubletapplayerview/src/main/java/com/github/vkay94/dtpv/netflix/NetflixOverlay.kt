@@ -1,20 +1,17 @@
 package com.github.vkay94.dtpv.netflix
 
 import android.content.Context
+import android.graphics.Color
 import android.media.session.PlaybackState
 import android.util.AttributeSet
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
-import androidx.annotation.DimenRes
-import androidx.annotation.StyleRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
-import androidx.core.widget.TextViewCompat
 import com.github.vkay94.dtpv.DoubleTapPlayerView
 import com.github.vkay94.dtpv.PlayerDoubleTapListener
 import com.github.vkay94.dtpv.R
@@ -89,41 +86,21 @@ class NetflixOverlay(context: Context, private val attrs: AttributeSet?) :
                 R.styleable.NetflixOverlay_nf_iconAnimationDuration, 750
             ).toLong()
 
-            // Arc size
-            arcSize = a.getDimensionPixelSize(
-                R.styleable.NetflixOverlay_nf_arcSize,
-                context.resources.getDimensionPixelSize(R.dimen.dtpv_nf_arc_size)
-            ).toFloat()
 
             // Colors
-            tapCircleColor = a.getColor(
-                R.styleable.NetflixOverlay_nf_tapCircleColor,
-                ContextCompat.getColor(context, R.color.dtpv_nf_tap_circle_color)
-            )
-
-            circleBackgroundColor = a.getColor(
-                R.styleable.NetflixOverlay_nf_backgroundCircleColor,
-                ContextCompat.getColor(context, R.color.dtpv_nf_background_circle_color)
-            )
-
-            // Seconds TextAppearance
-            textAppearance = a.getResourceId(
-                R.styleable.NetflixOverlay_nf_textAppearance,
-                R.style.NFSecondsTextAppearance
-            )
+            tapCircleColor = Color.TRANSPARENT
+            circleBackgroundColor = Color.TRANSPARENT
 
             a.recycle()
 
         } else {
             // Set defaults
-            arcSize = context.resources.getDimensionPixelSize(R.dimen.dtpv_nf_arc_size).toFloat()
-            tapCircleColor = ContextCompat.getColor(context, R.color.dtpv_nf_tap_circle_color)
-            circleBackgroundColor =
-                ContextCompat.getColor(context, R.color.dtpv_nf_background_circle_color)
+
+            tapCircleColor = Color.TRANSPARENT//ContextCompat.getColor(context, R.color.dtpv_nf_tap_circle_color)
+            circleBackgroundColor = Color.TRANSPARENT//ContextCompat.getColor(context, R.color.dtpv_nf_background_circle_color)
             animationDuration = 650
             iconAnimationDuration = 750
             seekSeconds = 10
-            textAppearance = R.style.NFSecondsTextAppearance
         }
     }
 
@@ -204,7 +181,7 @@ class NetflixOverlay(context: Context, private val attrs: AttributeSet?) :
     }
 
     fun tapCircleColorInt(@ColorInt color: Int) = apply {
-        tapCircleColor = color
+        tapCircleColor = Color.TRANSPARENT//color
     }
 
     /**
@@ -221,7 +198,7 @@ class NetflixOverlay(context: Context, private val attrs: AttributeSet?) :
     }
 
     fun circleBackgroundColorInt(@ColorInt color: Int) = apply {
-        circleBackgroundColor = color
+        circleBackgroundColor = Color.TRANSPARENT//color
     }
 
     /**
@@ -239,24 +216,6 @@ class NetflixOverlay(context: Context, private val attrs: AttributeSet?) :
     }
 
     /**
-     * Size of the arc which will be clipped from the background circle.
-     * The greater the value the more roundish the shape becomes
-     */
-    var arcSize: Float
-        get() = circleClipTapView.arcSize
-        internal set(value) {
-            circleClipTapView.arcSize = value
-        }
-
-    fun arcSize(@DimenRes resId: Int) = apply {
-        arcSize = context.resources.getDimension(resId)
-    }
-
-    fun arcSize(px: Float) = apply {
-        arcSize = px
-    }
-
-    /**
      * Duration the icon animation (fade in + fade out) for a full cycle in milliseconds.
      */
     var iconAnimationDuration: Long = 750
@@ -270,27 +229,6 @@ class NetflixOverlay(context: Context, private val attrs: AttributeSet?) :
         iconAnimationDuration = duration
     }
 
-    /**
-     * Text appearance of the *xx seconds* text.
-     */
-    @StyleRes
-    var textAppearance: Int = 0
-        private set(value) {
-            TextViewCompat.setTextAppearance(secondsView.textView, value)
-            field = value
-        }
-
-    fun textAppearance(@StyleRes resId: Int) = apply {
-        textAppearance = resId
-    }
-
-    /**
-     * TextView view for *xx seconds*.
-     *
-     * In case of you'd like to change some specific attributes of the TextView in runtime.
-     */
-    val secondsTextView: TextView
-        get() = secondsView.textView
 
     override fun onDoubleTapStarted(posX: Float, posY: Float) {
         if (player == null || playerView == null)

@@ -1,45 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/triangle_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    tools:ignore="ContentDescription">
+    android:gravity="center_horizontal"
+    android:orientation="horizontal">
 
-    <LinearLayout
-        android:id="@+id/triangle_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal">
+    <me.ertugrul.lib.Rewind
+        android:id="@+id/rewind"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        app:r_arrowSize="10dp"
+        app:r_color="#ffffff"
+        app:r_strokeWidth="3dp"
+        app:r_textSize="15sp" />
 
-        <me.ertugrul.lib.Rewind
-            android:id="@+id/rewind"
-            android:layout_width="100dp"
-            android:layout_height="50dp"
-            app:r_color="#ffffff"
-            app:r_textSize="15sp"
-            app:r_arrowSize="10dp"
-            app:r_strokeWidth="3dp" />
-
-        <me.ertugrul.lib.Forward
-            android:id="@+id/forward"
-            android:layout_width="100dp"
-            android:layout_height="50dp"
-            app:f_arrowSize="10dp"
-            app:f_color="#ffffff"
-            app:f_strokeWidth="3dp"
-            app:f_textSize="15sp" />
-
-    </LinearLayout>
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_seconds"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:gravity="center"
-        android:padding="4dp"
-        tools:text="20 Sekunden" />
+    <me.ertugrul.lib.Forward
+        android:id="@+id/forward"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        app:f_arrowSize="10dp"
+        app:f_color="#ffffff"
+        app:f_strokeWidth="3dp"
+        app:f_textSize="15sp" />
 
 </LinearLayout>

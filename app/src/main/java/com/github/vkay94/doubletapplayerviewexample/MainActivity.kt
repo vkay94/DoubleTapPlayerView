@@ -86,34 +86,20 @@ class MainActivity : BaseVideoActivity() {
     private fun initViewModel() {
         viewModel = ViewModelProvider(this).get(PageViewModel::class.java).apply {
             tapCircleColor.value = nfOverlay.tapCircleColor
-            arcSize.value = DataAndUtils.pxToDp(this@MainActivity, nfOverlay.arcSize)
             circleBackgroundColor.value = nfOverlay.circleBackgroundColor
             circleExpandDuration.value = nfOverlay.animationDuration
-            fontSize.value = DataAndUtils.pxToSp(this@MainActivity, nfOverlay.secondsTextView.textSize)
-            typeFace.value = Typeface.NORMAL
             iconSpeed.value = nfOverlay.iconAnimationDuration
         }
 
         viewModel.circleExpandDuration.observe(this, {
             nfOverlay.animationDuration(it)
         })
-        viewModel.arcSize.observe(this, {
-            nfOverlay.arcSize(DataAndUtils.dpToPx(this@MainActivity, it.toFloat()))
-        })
-        viewModel.fontSize.observe(this, {
-            TextViewStyler().textSize(it).applyTo(nfOverlay.secondsTextView)
-        })
-        viewModel.typeFace.observe(this, {
-            TextViewStyler().textStyle(it).applyTo(nfOverlay.secondsTextView)
-        })
+
         viewModel.tapCircleColor.observe(this, {
             nfOverlay.tapCircleColorInt(it)
         })
         viewModel.circleBackgroundColor.observe(this, {
             nfOverlay.circleBackgroundColorInt(it)
-        })
-        viewModel.secondsIcon.observe(this, {
-            //nfOverlay.icon(it)
         })
         viewModel.iconSpeed.observe(this, {
             nfOverlay.iconAnimationDuration(it)

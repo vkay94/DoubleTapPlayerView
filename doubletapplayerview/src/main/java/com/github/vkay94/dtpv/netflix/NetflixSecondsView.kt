@@ -24,7 +24,6 @@ class NetflixSecondsView(context: Context, attrs: AttributeSet?) :
     ConstraintLayout(context, attrs) {
 
     private var trianglesContainer: LinearLayout
-    private var secondsTextView: TextView
     private var forwardIcon: Forward
     private var rewindIcon: Rewind
 
@@ -32,7 +31,6 @@ class NetflixSecondsView(context: Context, attrs: AttributeSet?) :
         LayoutInflater.from(context).inflate(R.layout.nf_seconds_view, this, true)
 
         trianglesContainer = findViewById(R.id.triangle_container)
-        secondsTextView = findViewById(R.id.tv_seconds)
         forwardIcon = findViewById(R.id.forward)
         rewindIcon = findViewById(R.id.rewind)
     }
@@ -51,10 +49,8 @@ class NetflixSecondsView(context: Context, attrs: AttributeSet?) :
      */
     var seconds: Int = 0
         set(value) {
-            Log.wtf("Seconds view"," seconds seconds seconds? $isForward")
-            secondsTextView.text = context.resources.getQuantityString(
-                R.plurals.quick_seek_x_second, value, value
-            )
+            forwardIcon.setSeekForwardInSeconds(value)
+            rewindIcon.setSeekBackwardsInSeconds(value)
             field = value
         }
 
@@ -63,12 +59,9 @@ class NetflixSecondsView(context: Context, attrs: AttributeSet?) :
      */
     var isForward: Boolean = true
         set(value) {
-            Log.wtf("Seconds view"," is forward? $isForward")
             field = value
         }
 
-    val textView: TextView
-        get() = secondsTextView
 
     /**
      * Starts the triangle animation
