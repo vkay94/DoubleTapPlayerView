@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="NetflixOverlay">
+        <attr name="nf_playerView" format="reference" />
+        <attr name="nf_seekSeconds" format="integer" />
+        <attr name="nf_animationDuration" format="integer" />
+        <attr name="nf_iconAnimationDuration" format="integer" />
+        <attr name="nf_arcSize" format="dimension" />
+        <attr name="nf_tapCircleColor" format="color" />
+        <attr name="nf_backgroundCircleColor" format="color" />
+
+        <attr name="nf_textAppearance" format="reference" />
+    </declare-styleable>
+
+    <color name="dtpv_nf_tap_circle_color">#18FFFFFF</color>
+    <color name="dtpv_nf_background_circle_color">#20EEEEEE</color>
+    <dimen name="dtpv_nf_arc_size">40dp</dimen>
+
+    <style name="NFSecondsTextAppearance" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+</resources>

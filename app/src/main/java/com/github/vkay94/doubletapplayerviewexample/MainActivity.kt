@@ -16,7 +16,7 @@ import com.github.vkay94.doubletapplayerviewexample.fragments.PageViewModel
 import com.github.vkay94.doubletapplayerviewexample.fragments.SecondsViewFragment
 import com.github.vkay94.doubletapplayerviewexample.fragments.SectionsPagerAdapter
 import com.github.vkay94.doubletapplayerviewexample.fragments.ShapeFragment
-import com.github.vkay94.dtpv.youtube.YouTubeOverlay
+import com.github.vkay94.dtpv.netflix.NetflixOverlay
 
 class MainActivity : BaseVideoActivity() {
 
@@ -30,7 +30,7 @@ class MainActivity : BaseVideoActivity() {
     private lateinit var viewModel: PageViewModel
 
     // Views (to eliminate repeating 'binding.'-prefixes)
-    private lateinit var ytOverlay: YouTubeOverlay
+    private lateinit var nfOverlay: NetflixOverlay
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,7 +42,7 @@ class MainActivity : BaseVideoActivity() {
         controlsBinding = ExoPlaybackControlViewYtBinding.bind(controls)
         setContentView(view)
 
-        ytOverlay = binding.ytOverlay
+        nfOverlay = binding.nfOverlay
         videoPlayer = binding.previewPlayerView
 
         setSupportActionBar(binding.toolbar)
@@ -64,16 +64,16 @@ class MainActivity : BaseVideoActivity() {
     }
 
     private fun initDoubleTapPlayerView() {
-        ytOverlay
+        nfOverlay
             // Uncomment this line if the DoubleTapPlayerView is not set via XML
             //.playerView(previewPlayerView)
-            .performListener(object : YouTubeOverlay.PerformListener {
+            .performListener(object : NetflixOverlay.PerformListener {
                 override fun onAnimationStart() {
                     binding.previewPlayerView.useController = false
-                    ytOverlay.visibility = View.VISIBLE
+                    nfOverlay.visibility = View.VISIBLE
                 }
                 override fun onAnimationEnd() {
-                    ytOverlay.visibility = View.GONE
+                    nfOverlay.visibility = View.GONE
                     binding.previewPlayerView.useController = true
                 }
             })
@@ -85,45 +85,45 @@ class MainActivity : BaseVideoActivity() {
 
     private fun initViewModel() {
         viewModel = ViewModelProvider(this).get(PageViewModel::class.java).apply {
-            tapCircleColor.value = ytOverlay.tapCircleColor
-            arcSize.value = DataAndUtils.pxToDp(this@MainActivity, ytOverlay.arcSize)
-            circleBackgroundColor.value = ytOverlay.circleBackgroundColor
-            circleExpandDuration.value = ytOverlay.animationDuration
-            fontSize.value = DataAndUtils.pxToSp(this@MainActivity, ytOverlay.secondsTextView.textSize)
+            tapCircleColor.value = nfOverlay.tapCircleColor
+            arcSize.value = DataAndUtils.pxToDp(this@MainActivity, nfOverlay.arcSize)
+            circleBackgroundColor.value = nfOverlay.circleBackgroundColor
+            circleExpandDuration.value = nfOverlay.animationDuration
+            fontSize.value = DataAndUtils.pxToSp(this@MainActivity, nfOverlay.secondsTextView.textSize)
             typeFace.value = Typeface.NORMAL
-            iconSpeed.value = ytOverlay.iconAnimationDuration
+            iconSpeed.value = nfOverlay.iconAnimationDuration
         }
 
         viewModel.circleExpandDuration.observe(this, {
-            ytOverlay.animationDuration(it)
+            nfOverlay.animationDuration(it)
         })
         viewModel.arcSize.observe(this, {
-            ytOverlay.arcSize(DataAndUtils.dpToPx(this@MainActivity, it.toFloat()))
+            nfOverlay.arcSize(DataAndUtils.dpToPx(this@MainActivity, it.toFloat()))
         })
         viewModel.fontSize.observe(this, {
-            TextViewStyler().textSize(it).applyTo(ytOverlay.secondsTextView)
+            TextViewStyler().textSize(it).applyTo(nfOverlay.secondsTextView)
         })
         viewModel.typeFace.observe(this, {
-            TextViewStyler().textStyle(it).applyTo(ytOverlay.secondsTextView)
+            TextViewStyler().textStyle(it).applyTo(nfOverlay.secondsTextView)
         })
         viewModel.tapCircleColor.observe(this, {
-            ytOverlay.tapCircleColorInt(it)
+            nfOverlay.tapCircleColorInt(it)
         })
         viewModel.circleBackgroundColor.observe(this, {
-            ytOverlay.circleBackgroundColorInt(it)
+            nfOverlay.circleBackgroundColorInt(it)
         })
         viewModel.secondsIcon.observe(this, {
-            ytOverlay.icon(it)
+            //nfOverlay.icon(it)
         })
         viewModel.iconSpeed.observe(this, {
-            ytOverlay.iconAnimationDuration(it)
+            nfOverlay.iconAnimationDuration(it)
         })
     }
 
     private fun startNextVideo() {
         releasePlayer()
         initializePlayer()
-        ytOverlay.player(player!!)
+        nfOverlay.player(player!!)
 
         currentVideoId = (currentVideoId + 1).rem(DataAndUtils.videoList.size)
         buildMediaSource(Uri.parse(DataAndUtils.videoList[currentVideoId]))

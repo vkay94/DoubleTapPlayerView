@@ -39,17 +39,17 @@
                     android:animateLayoutChanges="true"
                     android:background="@android:color/black"
                     app:controller_layout_id="@layout/exo_playback_control_view_yt"
-                    app:dtpv_controller="@id/ytOverlay"
+                    app:dtpv_controller="@id/nfOverlay"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <com.github.vkay94.dtpv.youtube.YouTubeOverlay
-                    android:id="@+id/ytOverlay"
+                <com.github.vkay94.dtpv.netflix.NetflixOverlay
+                    android:id="@+id/nfOverlay"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="#77000000"
                     android:visibility="invisible"
-                    app:yt_playerView="@id/previewPlayerView"
+                    app:nf_playerView="@id/previewPlayerView"
                     tools:visibility="visible" />
 
             </FrameLayout>

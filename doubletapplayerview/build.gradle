@@ -46,6 +46,7 @@ dependencies {
     implementation "com.google.android.exoplayer:exoplayer-core:$versions.exoplayer"
     implementation "com.google.android.exoplayer:exoplayer-ui:$versions.exoplayer"
     implementation "androidx.constraintlayout:constraintlayout:$versions.constraintlayout"
+    implementation 'com.github.hussein-yassine:SuperForwardView:0.4'
 }
 
 // https://ayoubbenkhemis.medium.com/publish-android-library-with-jitpack-be00a29a8174
