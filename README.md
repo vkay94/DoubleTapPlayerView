@@ -1,14 +1,15 @@
+# This library is forked and built over [DoubleTapPlayerView][playerUrl]
+
 # DoubleTapPlayerView
 
 A simple library to include double tap behavior to ExoPlayer's PlayerView. 
-Created to handle fast forward/rewind behavior like YouTube.
+Created to handle fast forward/rewind behavior like Netflix.
 
 ![teamwork-flip](github/preview_gif.gif)
 
 # Sample app
 
-If you would like to test the YouTube overlay, then you can either download the demo app,
-which can be found under Assets of the release or build it yourself from code.
+If you would like to test the Netflix overlay, then you can build it yourself from code.
 It provides all main modifications available.
 
 The sample videos own by *Blender Foundation* and a full list can be found [here][videolist].
@@ -42,7 +43,7 @@ android {
 }
 
 dependencies {
-  implementation 'com.github.vkay94:DoubleTapPlayerView:1.0.4'
+    implementation 'com.github.hussein-yassine:DoubleTapPlayerView:1.0.8'
 }
 ```
 
@@ -51,7 +52,7 @@ verify versions below API level 21 (Lollipop) myself. So feedback is welcomed.
 
 # Getting started
 
-In order to start using the YouTube overlay, the easiest way is to include it directly 
+In order to start using the Netflix overlay, the easiest way is to include it directly 
 into your XML layout, e.g. on top of `DoubleTapPlayerView` or inside ExoPlayer's controller:
 
 ```xml
@@ -64,15 +65,17 @@ into your XML layout, e.g. on top of `DoubleTapPlayerView` or inside ExoPlayer's
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         
-        app:dtpv_controller="@+id/youtube_overlay" />
+        app:dtpv_controller="@+id/nfOverlay" />
 
-    <com.github.vkay94.dtpv.youtube.YouTubeOverlay
-        android:id="@+id/youtube_overlay"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="invisible"
-        
-        app:yt_playerView="@+id/playerView" />
+    <com.github.vkay94.dtpv.netflix.NetflixOverlay
+                    android:id="@+id/nfOverlay"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#77000000"
+                    android:visibility="invisible"
+                    tools:visibility="visible"
+                                                   
+                    app:nf_playerView="@id/previewPlayerView" />
 </FrameLayout>
 ```
 
@@ -81,26 +84,26 @@ before and after the animation, but at least, you have got to toggle the visibil
 overlay and reference the (Simple)ExoPlayer to it:
 
 ```kotlin
-youtube_overlay
-    .performListener(object : YouTubeOverlay.PerformListener {
+nfOverlay
+    .performListener(object : NetflixOverlay.PerformListener {
         override fun onAnimationStart() {
             // Do UI changes when circle scaling animation starts (e.g. hide controller views)
-            youtube_overlay.visibility = View.VISIBLE
+            nfOverlay.visibility = View.VISIBLE
         }
 
         override fun onAnimationEnd() {
             // Do UI changes when circle scaling animation starts (e.g. show controller views)
-            youtube_overlay.visibility = View.GONE
+            nfOverlay.visibility = View.GONE
         }
     })
     // Uncomment this line if you haven't set yt_playerView in XML
     // .playerView(playerView)
 
 // Uncomment this line if you haven't set dtpv_controller in XML 
-// playerView.controller(youtube_overlay)
+// playerView.controller(nfOverlay)
 
 // Call this method whenever the player is released and recreated
-youtube_overlay.player(simpleExoPlayer)
+nfOverlay.player(simpleExoPlayer)
 ```
 
 This way, you have more control about the appearance, for example you could apply a fading 
@@ -123,10 +126,10 @@ interface.
 You can adjust how long the double tap mode remains after the last action,
 the default value is 650 milliseconds.
 
-## YouTubeOverlay
+## NetflixOverlay
 
-`YouTubeOverlay` is the reason for this library. It provides nearly the
-same experience like the fast forward/rewind feature which is used by YouTube's
+`NetflixOverlay` is the reason for this library. It provides nearly the
+same experience like the fast forward/rewind feature which is used by Netflix's
 Android app. It is highly modifiable.
 
 ### XML attributes
@@ -137,18 +140,18 @@ Every attributes value can also be get and set programmatically.
 
 | Attribute name | Description | Type |
 | ------------- | ------------| ------|
-| `yt_seekSeconds` | Fast forward/rewind seconds skip per tap. The text *xx seconds* will be changed where xx is `value`. | `int` |
-| `yt_animationDuration` |  Speed of the circle scaling / time in millis to expand completely. When this time has passed, YouTubeOverlay's `PerformListener.onAnimationEnd()` will be called. | `int` |
-| `yt_arcSize` | Arc of the background circle. The higher the value the more roundish the shape becomes. This attribute should be set dynamically depending on screen size and orientation. | `dimen` | 
-| `yt_tapCircleColor` | Color of the scaling circle after tap. | `color` |
-| `yt_backgroundCircleColor` | Color of the background shape. | `color` |
-| `yt_iconAnimationDuration` | Time in millis to run through an full fade cycle. | `int` |
-| `yt_icon` | One of the three forward icons. Will be multiplied by three and mirrored for rewind. | `drawable` |
-| `yt_textAppearance` | Text appearance for the *xx seconds* text. | `style` |
+| `nf_seekSeconds` | Fast forward/rewind seconds skip per tap. The text *xx seconds* will be changed where xx is `value`. | `int` |
+| `nf_animationDuration` |  Speed of the circle scaling / time in millis to expand completely. When this time has passed, NetflixOverlay's `PerformListener.onAnimationEnd()` will be called. | `int` |
+| `nf_arcSize` | Arc of the background circle. The higher the value the more roundish the shape becomes. This attribute should be set dynamically depending on screen size and orientation. | `dimen` | 
+| `nf_tapCircleColor` | Color of the scaling circle after tap. | `color` |
+| `nf_backgroundCircleColor` | Color of the background shape. | `color` |
+| `nf_iconAnimationDuration` | Time in millis to run through an full fade cycle. | `int` |
+| `nf_icon` | One of the three forward icons. Will be multiplied by three and mirrored for rewind. | `drawable` |
+| `nf_textAppearance` | Text appearance for the *xx seconds* text. | `style` |
 
 I'd recommend the sample app to try out the different values for them.
 
-### YouTubeOverlay.PerformListener
+### NetflixOverlay.PerformListener
 
 This interface listens to the *lifecycle* of the overlay.
 
@@ -177,6 +180,7 @@ fun onVideoStartReached()
 fun onVideoEndReached()
 ```
 
+[playerUrl]: https://github.com/vkay94/DoubleTapPlayerView
 [videolist]: https://gist.github.com/jsturgis/3b19447b304616f18657
 [jitpack]: https://jitpack.io/#vkay94/DoubleTapPlayerView
 [PlayerDoubleTapListener]: https://github.com/vkay94/DoubleTapPlayerView/blob/master/doubletapplayerview/src/main/java/com/github/vkay94/dtpv/PlayerDoubleTapListener.java
