@@ -12,6 +12,7 @@ import com.github.vkay94.dtpv.DoubleTapPlayerView
 import com.google.android.exoplayer2.*
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter
+import com.google.android.exoplayer2.upstream.DefaultDataSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
 
@@ -20,7 +21,7 @@ import com.google.android.exoplayer2.util.Util
 open class BaseVideoActivity : AppCompatActivity() {
 
     var videoPlayer: DoubleTapPlayerView? = null
-    var player: SimpleExoPlayer? = null
+    var player: ExoPlayer? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,11 +29,7 @@ open class BaseVideoActivity : AppCompatActivity() {
     }
 
     fun buildMediaSource(mUri: Uri) {
-        val dataSourceFactory = DefaultDataSourceFactory(
-            this@BaseVideoActivity,
-            Util.getUserAgent(this@BaseVideoActivity, resources.getString(R.string.app_name)),
-            DefaultBandwidthMeter.Builder(this@BaseVideoActivity).build()
-        )
+        val dataSourceFactory = DefaultDataSource.Factory(this@BaseVideoActivity)
         val videoSource = ProgressiveMediaSource.Factory(dataSourceFactory, Mp4ExtractorFactory())
             .createMediaSource(MediaItem.fromUri(mUri))
 
@@ -53,7 +50,7 @@ open class BaseVideoActivity : AppCompatActivity() {
                 )
                 .build()
 
-            player = SimpleExoPlayer.Builder(this)
+            player = ExoPlayer.Builder(this)
                 .setLoadControl(loadControl)
                 .build()
 
